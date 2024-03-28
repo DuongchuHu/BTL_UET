@@ -1,0 +1,4 @@
+Đây là project làm game của Lương Thành Vinh msv: 23020175
+Lập ra vào ngày 06/03/2024 để upload bài tập lớn môn học Lập trình nâng cao.
+Những cập nhật của game được ghi tại đây.
+- Bản mẫu ver 0.1.1 : Cập nhật ngày 29/03/2024, upload những khung cơ bản của game và chưa tối ưu bất cứ code nào
