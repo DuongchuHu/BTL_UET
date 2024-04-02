@@ -2,3 +2,5 @@ Day la project lam game cua Luong Thanh Vinh msv: 23020175
 Lap ra vao ngay 06/03/2024 de upload bai tap lon mon hoc Lap tring nang cao
 Nhung ban cap nhat cua game duoc cap nhat tai day:
 - Ban mau ver 0.1.1 : Cap nhat ngay 20/03/2024, upload nhung khung co ban cua game va chua toi uu bat ki code nao
+- Ver 0.2.1: Lạp trinh huong doi tuong ngay 29/03
+- Ver 0.2.2: Them vao mot vai chi tiet am thanh cho game sinh dong hon ngay 30/03
