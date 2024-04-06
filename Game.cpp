@@ -2,6 +2,7 @@
 #include "TextureManager.hpp"
 
 SDL_Renderer* Game::renderer = nullptr;
+TTF_Font* Game::GameOverFont = nullptr;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -42,6 +43,10 @@ bool Game::init(){
         cerr << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << endl;
         isRunning = false;
     }
+    if (TTF_Init() == -1) {
+        cerr << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << endl;
+        isRunning = false;
+    }
 
     return isRunning;
 }
@@ -49,9 +54,11 @@ bool Game::init(){
 void Game::close(){
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_CloseFont(GameOverFont);
 
     IMG_Quit();
     Mix_CloseAudio();
+    TTF_Quit();
     SDL_Quit();
 }
 
@@ -122,7 +129,7 @@ void Game::run(){
             if (event.type == SDL_QUIT)
             {
                 quit = true;
-            }
+            } 
         }
 
         const Uint8 *keys = SDL_GetKeyboardState(NULL);
@@ -150,11 +157,10 @@ void Game::run(){
                 Obj.erase(Obj.begin());
             }
 
-            if (player.x < obstacle.x + 20 && player.x + 20 > obstacle.x &&
-                player.y < obstacle.y + 20 && player.y + 20 > obstacle.y)
+            if (player.x < obstacle.x + 20 && player.x + 20 > obstacle.x && player.y < obstacle.y + 20 && player.y + 20 > obstacle.y)
             {
                 Obj.clear();
-                mang--;
+                --mang;
                 if (Mix_PlayChannel(1, explosion, 0) == -1)
                 {
                     SDL_Log("Unable to play sound effect! SDL_mixer Error: %s", Mix_GetError());
@@ -183,6 +189,7 @@ void Game::run(){
             if (mang <= 0)
             {
                 quit = true;
+                player.texture = nullptr;
             }
         }
 
@@ -201,6 +208,11 @@ void Game::run(){
 
         SDL_Rect HeartR = {0, 0, 150, 50};
         SDL_RenderCopy(renderer, HeartTexture, NULL, &HeartR);
+        
+        string timestring ="Point: " + to_string(SDL_GetTicks() / 10);
+        SDL_Texture* TimeTexture = TextureManager::LoadFontTexture(timestring.c_str(), 50);
+        SDL_Rect TimeRect = {SCREEN_WIDTH - 200, 0, 100, 50};
+        SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
 
         SDL_RenderPresent(renderer);
 
@@ -210,6 +222,13 @@ void Game::run(){
             SDL_Delay(frameDelay - frameTime);
         }
     }
+    
+    SDL_Texture* GameOver = TextureManager::LoadFontTexture("Game Over", 100);
+    SDL_Rect GameOverRect = { 150, 100, 478, 125};
+    SDL_RenderCopy(renderer, GameOver, nullptr, &GameOverRect);
+    SDL_RenderPresent(renderer);
+
+    SDL_Delay(50);
 
     Mix_FreeChunk(explosion);
     Mix_FreeMusic(backgroundMusic);
@@ -217,4 +236,7 @@ void Game::run(){
     SDL_DestroyTexture(backgroundTexture);
     SDL_DestroyTexture(playerTexture);
     SDL_DestroyTexture(ObjTexture);
+    SDL_DestroyTexture(GameOver);
+
+    isRunning = false;
 }
