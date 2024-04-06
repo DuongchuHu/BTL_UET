@@ -4,11 +4,15 @@
 #include <bits/stdc++.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 
 using namespace std;
 
 class Game
 {
+private:
+    SDL_Window* window;
+    bool isRunning = true;
 public:
     Game();
     ~Game();
@@ -17,11 +21,9 @@ public:
     bool init();
     void close();
     bool running() { return isRunning;};
+    static TTF_Font* GameOverFont;
     
     static SDL_Renderer* renderer;
-private:
-    bool isRunning = true;
-    SDL_Window* window;
 };
 
 #endif
