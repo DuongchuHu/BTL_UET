@@ -7,6 +7,8 @@ TTF_Font* Game::GameOverFont = nullptr;
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
+int NewHightScore;
+
 struct GameObject
 {
     int x, y;
@@ -24,7 +26,7 @@ bool Game::init(){
         isRunning = false;
     }
 
-    window = SDL_CreateWindow("Avoid the Obj", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("BTL_UET", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (!window)
     {
         cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << endl;
@@ -62,35 +64,33 @@ void Game::close(){
     SDL_Quit();
 }
 
-void Game::run(){
-    SDL_Texture *backgroundTexture = TextureManager::Loadtexture("img/BGR.jpg");
+void Game::printPlayScreen(){
+    SDL_Texture *backgroundTexture = TextureManager::Loadtexture("Input/img/BGR.jpg");
     if (!backgroundTexture)
     {
         isRunning = false;
     }
 
-    SDL_Texture *playerTexture = TextureManager::Loadtexture("img/TENLUA.png");
-    SDL_Texture *ObjTexture = TextureManager::Loadtexture("img/CNV.png");
-    SDL_Texture *HeartTexture = TextureManager::Loadtexture("img/3.png");
+    SDL_Texture *playerTexture = TextureManager::Loadtexture("Input/img/TENLUA.png");
+    SDL_Texture *ObjTexture = TextureManager::Loadtexture("Input/img/CNV.png");
+    SDL_Texture *HeartTexture = TextureManager::Loadtexture("Input/img/3.png");
     if (!playerTexture || !ObjTexture)
     {
         isRunning =false;
     }
-
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
     {
         SDL_Log("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
         isRunning = false;
     }
-
-    Mix_Music *backgroundMusic = Mix_LoadMUS("BackgroundSound.mp3");
+    Mix_Music *backgroundMusic = Mix_LoadMUS("Input/mixer/BackgroundSound.mp3");
     if (backgroundMusic == nullptr)
     {
         SDL_Log("Failed to load background music! SDL_mixer Error: %s", Mix_GetError());
         isRunning = false;
     }
 
-    Mix_Chunk *explosion = Mix_LoadWAV("explosion.wav");
+    Mix_Chunk *explosion = Mix_LoadWAV("Input/mixer/explosion.wav");
     if (explosion == nullptr)
     {
         SDL_Log("Failed to load sound effect! SDL_mixer Error: %s", Mix_GetError());
@@ -129,7 +129,7 @@ void Game::run(){
             if (event.type == SDL_QUIT)
             {
                 quit = true;
-            } 
+            }
         }
 
         const Uint8 *keys = SDL_GetKeyboardState(NULL);
@@ -173,13 +173,13 @@ void Game::run(){
                 switch (mang)
                 {
                 case 1:
-                    HeartTexture = TextureManager::Loadtexture("img/1.png");
+                    HeartTexture = TextureManager::Loadtexture("Input/img/1.png");
                     break;
                 case 2:
-                    HeartTexture = TextureManager::Loadtexture("img/2.png");
+                    HeartTexture = TextureManager::Loadtexture("Input/img/2.png");
                     break;
                 case 0:
-                    HeartTexture = TextureManager::Loadtexture("img/0.png");
+                    HeartTexture = TextureManager::Loadtexture("Input/img/0.png");
                     break;
                 default:
                     break;
@@ -208,9 +208,9 @@ void Game::run(){
 
         SDL_Rect HeartR = {0, 0, 150, 50};
         SDL_RenderCopy(renderer, HeartTexture, NULL, &HeartR);
-        
-        string timestring ="Point: " + to_string(SDL_GetTicks() / 10);
-        SDL_Texture* TimeTexture = TextureManager::LoadFontTexture(timestring.c_str(), 50);
+        auto Score = SDL_GetTicks() / 10;
+        string timestring ="Score: " + to_string(Score);
+        SDL_Texture* TimeTexture = TextureManager::LoadFontTexture(timestring.c_str(), 50, "Input/ttf/MTO Astro City.ttf", "yellow");
         SDL_Rect TimeRect = {SCREEN_WIDTH - 200, 0, 100, 50};
         SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
 
@@ -221,10 +221,12 @@ void Game::run(){
         {
             SDL_Delay(frameDelay - frameTime);
         }
+        NewHightScore = Score;
+        pushScore();
     }
     
-    SDL_Texture* GameOver = TextureManager::LoadFontTexture("Game Over", 100);
-    SDL_Rect GameOverRect = { 150, 100, 478, 125};
+    SDL_Texture* GameOver = TextureManager::LoadFontTexture("Game Over", 100, "Input/ttf/LIT-Mango.ttf", "white");
+    SDL_Rect GameOverRect = {150, 100, 478, 125};
     SDL_RenderCopy(renderer, GameOver, nullptr, &GameOverRect);
     SDL_RenderPresent(renderer);
 
@@ -239,4 +241,118 @@ void Game::run(){
     SDL_DestroyTexture(GameOver);
 
     isRunning = false;
+}
+void Game::printMainScreen(){
+    SDL_Texture* MainScreenTexture = TextureManager::Loadtexture("Input/img/MainScreen1.jpg");
+    SDL_RenderCopy(renderer, MainScreenTexture, NULL, NULL);
+
+    SDL_Texture* NameGame = TextureManager::LoadFontTexture("SPACESHIP", 100, "Input/ttf/MTO CHANEY.TTF", "white");
+    SDL_Rect NameGameRect = {150, 100, 478, 125};
+    SDL_RenderCopy(renderer, NameGame, NULL, &NameGameRect);
+
+    SDL_Texture* PlayText = TextureManager::LoadFontTexture("PLAY", 50, "Input/ttf/MTO CHANEY.TTF", "white");
+    SDL_Rect PlayTextRect = {285, 225, 225, 100};
+    SDL_RenderCopy(renderer, PlayText, NULL, &PlayTextRect);
+
+    SDL_Texture* ScoreText = TextureManager::LoadFontTexture("HIGHT SCORE", 50, "Input/ttf/MTO CHANEY.TTF", "white");
+    SDL_Rect ScoreTextRect = {250, 325, 300, 125};
+    SDL_RenderCopy(renderer, ScoreText, NULL, &ScoreTextRect);
+
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        SDL_Log("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
+        isRunning = false;
+    }
+    Mix_Music *MainScreenMusic = Mix_LoadMUS("Input/mixer/MainScreen.mp3");
+    if (MainScreenMusic == nullptr)
+    {
+        SDL_Log("Failed to load MainScreen Music! SDL_mixer Error: %s", Mix_GetError());
+        isRunning = false;
+    }
+
+    if (Mix_PlayMusic(MainScreenMusic, -1) == -1)
+    {
+        SDL_Log("Unable to play MainScreen Music! SDL_mixer Error: %s", Mix_GetError());
+        isRunning = false;
+    }
+
+    SDL_RenderPresent(renderer);
+}
+void Game::pushScore(){
+    ifstream input_file("HightScore.txt");
+    ofstream output_file("HightScore.txt.tmp");
+
+    if (!input_file.is_open() || !output_file.is_open()) {
+        cerr << "Không thể mở tệp đầu ra." << endl;
+        isRunning = false;
+    }
+
+    int OldHightScore;
+    input_file >> OldHightScore;
+
+    if (NewHightScore > OldHightScore) {
+        output_file << NewHightScore;
+    } else {
+        output_file << OldHightScore;
+    }
+
+    input_file.close();
+    output_file.close();
+
+    remove("HightScore.txt");
+    rename("HightScore.txt.tmp", "HightScore.txt");
+}
+void Game::printScoreScreen(){
+    SDL_Texture* ScoreTexture = TextureManager::Loadtexture("Input/img/Score.png");
+    SDL_RenderCopy(renderer, ScoreTexture, NULL, NULL);
+
+    SDL_Texture* HightScoreText = TextureManager::LoadFontTexture("Hight Score:", 100, "Input/ttf/MTO Telephone.ttf", "black");
+    SDL_Rect HightScoreRect= {250, 175, 300, 100};
+    SDL_RenderCopy(renderer, HightScoreText, NULL, &HightScoreRect);
+
+    ifstream in;
+    in.open("HightScore.txt");
+
+    int HightScore; in >> HightScore;
+    int len = log10(HightScore + 1) + 1;
+    int ScoreW = 25*len;
+
+    string score = to_string(HightScore);
+    SDL_Texture* ScoreText = TextureManager::LoadFontTexture(score.c_str(), 100, "Input/ttf/MTO Telephone.ttf", "black");
+    SDL_Rect ScoreRect= {395 - ScoreW / 2, 255, ScoreW, 75};
+    SDL_RenderCopy(renderer, ScoreText, NULL, &ScoreRect);
+    SDL_RenderPresent(renderer);
+}
+void Game::run(){
+    printMainScreen();
+
+    bool quit = false;
+    bool isMainScreen = true;
+    SDL_Event event;
+
+    while (!quit)
+    {
+        while (SDL_PollEvent(&event) != 0)
+        {
+            if (event.type == SDL_QUIT)
+            {
+                quit = true;
+                isRunning = false;
+            } else if (event.type == SDL_MOUSEBUTTONDOWN && isMainScreen == true){
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+
+                if (x >= 285 && x <= 285 + 225 &&
+                    y >= 225 && y <= 225 + 100) {
+                    printPlayScreen();
+                    isMainScreen = false;
+                }
+                else if (x >= 250 && x <= 250 + 300 &&
+                         y >= 325 && y <= 325 + 125) {
+                    printScoreScreen();
+                    isMainScreen = false;
+                }
+            }
+        }
+    }
 }
