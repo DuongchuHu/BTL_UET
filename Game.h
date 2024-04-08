@@ -21,8 +21,12 @@ public:
     bool init();
     void close();
     bool running() { return isRunning;};
+    void printMainScreen();
+    void printPlayScreen();
+    void printScoreScreen();
+    void pushScore();
+
     static TTF_Font* GameOverFont;
-    
     static SDL_Renderer* renderer;
 };
 
