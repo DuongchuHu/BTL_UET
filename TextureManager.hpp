@@ -1,3 +1,5 @@
+#ifndef TextureManager_HPP
+#define TextureManager_HPP
 #include "Game.h"
 
 using namespace std;
@@ -10,3 +12,4 @@ public:
     static SDL_Texture* Loadtexture(const char* fileName);
     static SDL_Texture* LoadFontTexture(const char* text, int size, const char* Choose_font, const char* color);
 };
+#endif
