@@ -13,6 +13,8 @@ class Game
 private:
     SDL_Window* window;
     bool isRunning = true;
+    Uint32 CountTime = 0;
+    bool isMainScreen = true;
 public:
     Game();
     ~Game();
