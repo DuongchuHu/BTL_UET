@@ -1,5 +1,3 @@
-#ifndef TextureManager_HPP
-#define TextureManager_HPP
 #include "TextureManager.hpp"
 
 SDL_Texture *TextureManager::Loadtexture(const char *texture)
@@ -28,4 +26,3 @@ SDL_Texture* TextureManager::LoadFontTexture(const char* text, int size, const c
 
     return textTexture;
 }
-#endif
