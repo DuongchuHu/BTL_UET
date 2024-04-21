@@ -1,12 +1,13 @@
 #include "Game.h"
 #include "TextureManager.hpp"
+// #include "Bullet.h"
 
 SDL_Renderer *Game::renderer = nullptr;
 TTF_Font *Game::GameOverFont = nullptr;
+// Bullet *bullet = nullptr;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-const int FPS = 144;
 
 int NewHighScore;
 int TotalCoin = 0;
@@ -53,6 +54,11 @@ bool Game::init()
         cerr << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << endl;
         isRunning = false;
     }
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        SDL_Log("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
+        isRunning = false;
+    }
 
     return isRunning;
 }
@@ -72,25 +78,23 @@ void Game::close()
 void Game::printPlayScreen()
 {
     CountTime = SDL_GetTicks() / 10;
-    SDL_Texture *backgroundTexture = TextureManager::Loadtexture("Input/img/BGR.jpg");
-    if (!backgroundTexture)
-    {
-        isRunning = false;
-    }
 
+    // SDL_Texture* bullet = TextureManager::Loadtexture("Input/img/Bullet.png");
+
+    SDL_Texture *backgroundTexture = TextureManager::Loadtexture("Input/img/BGR.jpg");
     SDL_Texture *playerTexture = TextureManager::Loadtexture("Input/img/TENLUA.png");
     SDL_Texture *ObjTexture = TextureManager::Loadtexture("Input/img/CNV.png");
     SDL_Texture *HeartTexture = TextureManager::Loadtexture("Input/img/3.png");
     SDL_Texture *CoinTexture = TextureManager::Loadtexture("Input/img/coin.png");
+    if (!backgroundTexture)
+    {
+        isRunning = false;
+    }
     if (!playerTexture || !ObjTexture || !HeartTexture || !CoinTexture)
     {
         isRunning = false;
     }
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-    {
-        SDL_Log("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
-        isRunning = false;
-    }
+
     Mix_Music *backgroundMusic = Mix_LoadMUS("Input/mixer/BackgroundSound.mp3");
     if (backgroundMusic == nullptr)
     {
@@ -99,7 +103,8 @@ void Game::printPlayScreen()
     }
 
     Mix_Chunk *explosion = Mix_LoadWAV("Input/mixer/explosion.wav");
-    if (explosion == nullptr)
+    Mix_Chunk *CoinLoud = Mix_LoadWAV("Input/mixer/Coin.mp3");
+    if (explosion == nullptr || CoinLoud == nullptr)
     {
         SDL_Log("Failed to load sound effect! SDL_mixer Error: %s", Mix_GetError());
         isRunning = false;
@@ -117,7 +122,6 @@ void Game::printPlayScreen()
     int frameTime;
 
     GameObject player = {SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 5, playerTexture};
-
     vector<GameObject> Obj;
     vector<GameObject> Coin;
 
@@ -131,7 +135,7 @@ void Game::printPlayScreen()
     while (!quit)
     {
         frameStart = SDL_GetTicks();
-        auto Score = SDL_GetTicks() / 10 - CountTime + 100*TotalCoin;
+        auto Score = SDL_GetTicks() / 10 - CountTime + 100 * TotalCoin;
         int len = log10(Score + 1) + 1;
         string timestring = "Score: " + to_string(Score);
 
@@ -142,7 +146,6 @@ void Game::printPlayScreen()
                 quit = true;
             }
         }
-
         const Uint8 *keys = SDL_GetKeyboardState(NULL);
         if (keys[SDL_SCANCODE_LEFT] && player.x > 0)
         {
@@ -160,8 +163,7 @@ void Game::printPlayScreen()
         {
             player.y += 5;
         }
-
-        if (rand() % 100 < 5)
+        if (rand() % 100 < number)
         {
             GameObject obstacle = {rand() % (SCREEN_WIDTH - 20), 0, 3, ObjTexture};
             Obj.push_back(obstacle);
@@ -171,34 +173,52 @@ void Game::printPlayScreen()
             GameObject CoinObj = {rand() % (SCREEN_WIDTH - 20), 0, 5, CoinTexture};
             Coin.push_back(CoinObj);
         }
+
+        bool soundPlaying = false;
+
         for (auto it = Coin.begin(); it != Coin.end(); ++it)
         {
-            auto &CoinObj = *it;
+            it->y += it->speed;
 
-            CoinObj.y += CoinObj.speed;
-
-            if (CoinObj.y > SCREEN_HEIGHT)
+            if (it->y > SCREEN_HEIGHT)
             {
                 Coin.erase(it);
                 it--;
+                continue;
             }
-            if (player.x < CoinObj.x +25 && player.x + 25 > CoinObj.x && player.y < CoinObj.y + 25 && player.y + 25 > CoinObj.y)
+            if (player.x < it->x + 25 && player.x + 25 > it->x && player.y < it->y + 25 && player.y + 25 > it->y)
             {
                 TotalCoin += 1;
                 Coin.erase(it);
                 it--;
+
+                if (!soundPlaying && Mix_PlayChannel(1, CoinLoud, 0) != -1)
+                {
+                    soundPlaying = true;
+                }
             }
         }
-        for (auto &obstacle : Obj)
+        if (soundPlaying && Mix_Playing(1) == 0)
         {
-            obstacle.y += obstacle.speed;
+            soundPlaying = false;
+        }
 
-            if (obstacle.y > SCREEN_HEIGHT)
+        for (auto it = Obj.begin(); it != Obj.end(); ++it)
+        {
+            it->y += it->speed;
+
+            if (it->y > SCREEN_HEIGHT)
             {
-                Obj.erase(Obj.begin());
+                Obj.erase(it);
+                --it;
+                continue;
             }
-
-            if (player.x < obstacle.x + 20 && player.x + 20 > obstacle.x && player.y < obstacle.y + 20 && player.y + 20 > obstacle.y)
+            // if(it->x + 35 > bullet->xpos && it->x + 35 < bullet->xpos + 25 && it->y < bullet->ypos && it->y + 35 > bullet->ypos){
+            //     Obj.erase(it);
+            //     --it;
+            //     continue;
+            // }
+            if (player.x < it->x + 20 && player.x + 20 > it->x && player.y < it->y + 20 && player.y + 20 > it->y)
             {
                 Obj.clear();
                 Coin.clear();
@@ -228,11 +248,12 @@ void Game::printPlayScreen()
                     break;
                 }
                 SDL_Delay(200);
-            }
-            if (mang <= 0)
-            {
-                quit = true;
-                player.texture = nullptr;
+                if (mang <= 0)
+                {
+                    quit = true;
+                    player.texture = nullptr;
+                }
+                break;
             }
         }
 
@@ -242,6 +263,15 @@ void Game::printPlayScreen()
 
         SDL_Rect playerR = {player.x, player.y, 50, 50};
         SDL_RenderCopy(renderer, player.texture, nullptr, &playerR);
+        // if (keys[SDL_SCANCODE_SPACE])
+        // {
+        //     int time = SDL_GetTicks();
+        //     int x = player.x;
+        //     int y = player.y;
+        //     SDL_Rect BulletRect = {x + 12, y - 50, 25, 50};
+        //     SDL_RenderCopy(Game::renderer, bullet->BulletTexture, NULL, &BulletRect);
+        //     // bullet->update();
+        // }
 
         for (const auto &obstacle : Obj)
         {
@@ -260,6 +290,7 @@ void Game::printPlayScreen()
         SDL_Texture *TimeTexture = TextureManager::LoadFontTexture(timestring.c_str(), 50, "Input/ttf/MTO Astro City.ttf", "yellow");
         SDL_Rect TimeRect = {SCREEN_WIDTH - 100 - 10 * len, 0, 70 + 10 * len, 50};
         SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
+        SDL_DestroyTexture(TimeTexture);
 
         SDL_RenderPresent(renderer);
 
@@ -280,11 +311,14 @@ void Game::printPlayScreen()
 
     Mix_FreeChunk(explosion);
     Mix_FreeMusic(backgroundMusic);
+    Mix_FreeChunk(CoinLoud);
 
     SDL_DestroyTexture(backgroundTexture);
     SDL_DestroyTexture(playerTexture);
     SDL_DestroyTexture(ObjTexture);
     SDL_DestroyTexture(GameOver);
+    SDL_DestroyTexture(CoinTexture);
+    SDL_DestroyTexture(HeartTexture);
     pushScore();
 
     isRunning = false;
@@ -306,11 +340,10 @@ void Game::printMainScreen()
     SDL_Rect ScoreTextRect = {250, 325, 300, 125};
     SDL_RenderCopy(renderer, ScoreText, NULL, &ScoreTextRect);
 
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-    {
-        SDL_Log("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
-        isRunning = false;
-    }
+    SDL_Texture *GameModeText = TextureManager::LoadFontTexture("GAME MODE", 50, "Input/ttf/MTO CHANEY.TTF", "white");
+    SDL_Rect GameModeRect = {275, 450, 250, 100};
+    SDL_RenderCopy(renderer, GameModeText, NULL, &GameModeRect);
+
     Mix_Music *MainScreenMusic = Mix_LoadMUS("Input/mixer/MainScreen.mp3");
     if (MainScreenMusic == nullptr)
     {
@@ -325,6 +358,57 @@ void Game::printMainScreen()
     }
 
     SDL_RenderPresent(renderer);
+    bool quit = false;
+    SDL_Event event;
+
+    while (!quit)
+    {
+        while (SDL_PollEvent(&event) != 0)
+        {
+            if (event.type == SDL_QUIT)
+            {
+                quit = true;
+                isRunning = false;
+                break;
+            }
+            else if (event.type == SDL_MOUSEBUTTONDOWN && isMainScreen == true)
+            {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+
+                if (x >= 285 && x <= 285 + 225 && y >= 225 && y <= 225 + 100)
+                {
+                    quit = true;
+                    Mix_FreeMusic(MainScreenMusic);
+                    SDL_DestroyTexture(MainScreenTexture);
+                    SDL_DestroyTexture(PlayText);
+                    SDL_DestroyTexture(ScoreText);
+                    SDL_DestroyTexture(NameGame);
+                    SwitchScreen(2);
+                }
+                else if (x >= 250 && x <= 250 + 300 && y >= 325 && y <= 325 + 125)
+                {
+                    quit = true;
+                    Mix_FreeMusic(MainScreenMusic);
+                    SDL_DestroyTexture(MainScreenTexture);
+                    SDL_DestroyTexture(PlayText);
+                    SDL_DestroyTexture(ScoreText);
+                    SDL_DestroyTexture(NameGame);
+                    SwitchScreen(3);
+                }
+                else if (x >= 275 && x <= 275 + 250 && y >= 450 && y <= 450 + 100)
+                {
+                    quit = true;
+                    Mix_FreeMusic(MainScreenMusic);
+                    SDL_DestroyTexture(MainScreenTexture);
+                    SDL_DestroyTexture(PlayText);
+                    SDL_DestroyTexture(ScoreText);
+                    SDL_DestroyTexture(NameGame);
+                    SwitchScreen(4);
+                }
+            }
+        }
+    }
 }
 void Game::pushScore()
 {
@@ -364,6 +448,10 @@ void Game::printScoreScreen()
     SDL_Rect HighScoreRect = {250, 175, 300, 100};
     SDL_RenderCopy(renderer, HighScoreText, NULL, &HighScoreRect);
 
+    SDL_Texture *ESCTexture = TextureManager::Loadtexture("Input/img/ESC.png");
+    SDL_Rect ESCRect = {755, 0, 35, 35};
+    SDL_RenderCopy(renderer, ESCTexture, NULL, &ESCRect);
+
     ifstream in;
     in.open("HighScore.txt");
 
@@ -377,10 +465,6 @@ void Game::printScoreScreen()
     SDL_Rect ScoreRect = {395 - ScoreW / 2, 255, ScoreW, 75};
     SDL_RenderCopy(renderer, ScoreText, NULL, &ScoreRect);
     SDL_RenderPresent(renderer);
-}
-void Game::run()
-{
-    printMainScreen();
 
     bool quit = false;
     SDL_Event event;
@@ -393,25 +477,112 @@ void Game::run()
             {
                 quit = true;
                 isRunning = false;
+                break;
             }
             else if (event.type == SDL_MOUSEBUTTONDOWN && isMainScreen == true)
             {
                 int x, y;
                 SDL_GetMouseState(&x, &y);
 
-                if (x >= 285 && x <= 285 + 225 && y >= 225 && y <= 225 + 100)
+                if (x >= 755 && x <= 755 + 35 && y >= 0 && y <= 35)
                 {
-                    SDL_RenderClear(renderer);
-                    printPlayScreen();
-                    isMainScreen = false;
-                }
-                else if (x >= 250 && x <= 250 + 300 && y >= 325 && y <= 325 + 125)
-                {
-                    SDL_RenderClear(renderer);
-                    printScoreScreen();
-                    isMainScreen = false;
+                    SDL_DestroyTexture(ScoreTexture);
+                    SDL_DestroyTexture(ESCTexture);
+                    SDL_DestroyTexture(ScoreText);
+                    SDL_DestroyTexture(HighScoreText);
+                    quit = true;
+                    SwitchScreen(1);
                 }
             }
         }
+    }
+}
+void Game::printGameModeScreen()
+{
+    SDL_Texture *Screen = TextureManager::Loadtexture("Input/img/Score.png");
+    SDL_RenderCopy(renderer, Screen, NULL, NULL);
+
+    SDL_Texture *ESCTexture = TextureManager::Loadtexture("Input/img/ESC.png");
+    SDL_Rect ESCRect = {755, 0, 35, 35};
+    SDL_RenderCopy(renderer, ESCTexture, NULL, &ESCRect);
+
+
+    // SDL_Texture *GameMode = TextureManager::LoadFontTexture("Game Mode", 100, "Input/ttf/MTO Astro City.ttf", "white");
+    // SDL_Texture *EasyMode = TextureManager::LoadFontTexture("Easy", 100, "Input/ttf/MTO Astro City.ttf", "white");
+    // SDL_Texture *MediumMode = TextureManager::LoadFontTexture("Medium", 100, "Input/ttf/MTO Astro City.ttf", "white");
+    // SDL_Texture *HardMode = TextureManager::LoadFontTexture("Hard", 100, "Input/ttf/MTO Astro City.ttf", "white");
+    bool quit = false;
+    SDL_Event event;
+    while (!quit)
+    {
+        while (SDL_PollEvent(&event) != 0)
+        {
+            if (event.type == SDL_QUIT)
+            {
+                quit = true;
+                isRunning = false;
+                break;
+            }
+            else if (event.type == SDL_MOUSEBUTTONDOWN && isMainScreen == true)
+            {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+
+                if (x >= 755 && x <= 755 + 35 && y >= 0 && y <= 35)
+                {
+                    quit = true;
+                    SwitchScreen(1);
+                }
+            }
+        }
+    }
+
+    SDL_RenderPresent(renderer);
+}
+void Game::run()
+{
+    if (isMainScreen)
+    {
+        printMainScreen();
+    }
+}
+void Game::SwitchScreen(int x)
+{
+    switch (x)
+    {
+    case 1:
+        SDL_RenderClear(renderer);
+        printMainScreen();
+        isMainScreen = true;
+        isPlayScreen = false;
+        isScoreScreen = false;
+        isGameModeScreen = false;
+        break;
+    case 2:
+        SDL_RenderClear(renderer);
+        printPlayScreen();
+        isMainScreen = false;
+        isPlayScreen = true;
+        isScoreScreen = false;
+        isGameModeScreen = false;
+        break;
+    case 3:
+        SDL_RenderClear(renderer);
+        printScoreScreen();
+        isMainScreen = false;
+        isPlayScreen = false;
+        isScoreScreen = true;
+        isGameModeScreen = false;
+        break;
+    case 4:
+        SDL_RenderClear(renderer);
+        printGameModeScreen();
+        isMainScreen = false;
+        isPlayScreen = false;
+        isScoreScreen = false;
+        isGameModeScreen = true;
+        break;
+    default:
+        break;
     }
 }
