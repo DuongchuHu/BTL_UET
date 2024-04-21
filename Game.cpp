@@ -1,10 +1,8 @@
 #include "Game.h"
 #include "TextureManager.hpp"
-// #include "Bullet.h"
 
 SDL_Renderer *Game::renderer = nullptr;
 TTF_Font *Game::GameOverFont = nullptr;
-// Bullet *bullet = nullptr;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -305,9 +303,10 @@ void Game::printPlayScreen()
     SDL_Texture *GameOver = TextureManager::LoadFontTexture("Game Over", 100, "Input/ttf/LIT-Mango.ttf", "white");
     SDL_Rect GameOverRect = {150, 100, 478, 125};
     SDL_RenderCopy(renderer, GameOver, nullptr, &GameOverRect);
+
     SDL_RenderPresent(renderer);
 
-    SDL_Delay(50);
+    SDL_Delay(5000);
 
     Mix_FreeChunk(explosion);
     Mix_FreeMusic(backgroundMusic);
@@ -358,6 +357,11 @@ void Game::printMainScreen()
     }
 
     SDL_RenderPresent(renderer);
+    SDL_DestroyTexture(MainScreenTexture);
+    SDL_DestroyTexture(PlayText);
+    SDL_DestroyTexture(ScoreText);
+    SDL_DestroyTexture(NameGame);
+    SDL_DestroyTexture(GameModeText);
     bool quit = false;
     SDL_Event event;
 
@@ -380,30 +384,18 @@ void Game::printMainScreen()
                 {
                     quit = true;
                     Mix_FreeMusic(MainScreenMusic);
-                    SDL_DestroyTexture(MainScreenTexture);
-                    SDL_DestroyTexture(PlayText);
-                    SDL_DestroyTexture(ScoreText);
-                    SDL_DestroyTexture(NameGame);
                     SwitchScreen(2);
                 }
                 else if (x >= 250 && x <= 250 + 300 && y >= 325 && y <= 325 + 125)
                 {
                     quit = true;
                     Mix_FreeMusic(MainScreenMusic);
-                    SDL_DestroyTexture(MainScreenTexture);
-                    SDL_DestroyTexture(PlayText);
-                    SDL_DestroyTexture(ScoreText);
-                    SDL_DestroyTexture(NameGame);
                     SwitchScreen(3);
                 }
                 else if (x >= 275 && x <= 275 + 250 && y >= 450 && y <= 450 + 100)
                 {
                     quit = true;
                     Mix_FreeMusic(MainScreenMusic);
-                    SDL_DestroyTexture(MainScreenTexture);
-                    SDL_DestroyTexture(PlayText);
-                    SDL_DestroyTexture(ScoreText);
-                    SDL_DestroyTexture(NameGame);
                     SwitchScreen(4);
                 }
             }
@@ -464,6 +456,12 @@ void Game::printScoreScreen()
     SDL_Texture *ScoreText = TextureManager::LoadFontTexture(score.c_str(), 100, "Input/ttf/MTO Telephone.ttf", "black");
     SDL_Rect ScoreRect = {395 - ScoreW / 2, 255, ScoreW, 75};
     SDL_RenderCopy(renderer, ScoreText, NULL, &ScoreRect);
+
+    SDL_DestroyTexture(ScoreTexture);
+    SDL_DestroyTexture(ESCTexture);
+    SDL_DestroyTexture(ScoreText);
+    SDL_DestroyTexture(HighScoreText);
+
     SDL_RenderPresent(renderer);
 
     bool quit = false;
@@ -486,10 +484,6 @@ void Game::printScoreScreen()
 
                 if (x >= 755 && x <= 755 + 35 && y >= 0 && y <= 35)
                 {
-                    SDL_DestroyTexture(ScoreTexture);
-                    SDL_DestroyTexture(ESCTexture);
-                    SDL_DestroyTexture(ScoreText);
-                    SDL_DestroyTexture(HighScoreText);
                     quit = true;
                     SwitchScreen(1);
                 }
@@ -499,18 +493,37 @@ void Game::printScoreScreen()
 }
 void Game::printGameModeScreen()
 {
-    SDL_Texture *Screen = TextureManager::Loadtexture("Input/img/Score.png");
+    SDL_Texture *Screen = TextureManager::Loadtexture("Input/img/GameMode.jpg");
     SDL_RenderCopy(renderer, Screen, NULL, NULL);
+    SDL_DestroyTexture(Screen);
 
     SDL_Texture *ESCTexture = TextureManager::Loadtexture("Input/img/ESC.png");
     SDL_Rect ESCRect = {755, 0, 35, 35};
     SDL_RenderCopy(renderer, ESCTexture, NULL, &ESCRect);
+    SDL_DestroyTexture(ESCTexture);
 
+    SDL_Texture *GameMode = TextureManager::LoadFontTexture("Game Mode", 100, "Input/ttf/MTO Astro City.ttf", "white");
+    SDL_Rect GameModeRect = {150, 100, 478, 125};
+    SDL_RenderCopy(renderer, GameMode, NULL, &GameModeRect);
+    SDL_DestroyTexture(GameMode);
 
-    // SDL_Texture *GameMode = TextureManager::LoadFontTexture("Game Mode", 100, "Input/ttf/MTO Astro City.ttf", "white");
-    // SDL_Texture *EasyMode = TextureManager::LoadFontTexture("Easy", 100, "Input/ttf/MTO Astro City.ttf", "white");
-    // SDL_Texture *MediumMode = TextureManager::LoadFontTexture("Medium", 100, "Input/ttf/MTO Astro City.ttf", "white");
-    // SDL_Texture *HardMode = TextureManager::LoadFontTexture("Hard", 100, "Input/ttf/MTO Astro City.ttf", "white");
+    SDL_Texture *EasyMode = TextureManager::LoadFontTexture("Easy", 100, "Input/ttf/MTO Astro City.ttf", "red");
+    SDL_Rect EasyRect = {285, 225, 225, 100};
+    SDL_RenderCopy(renderer, EasyMode, NULL, &EasyRect);
+    SDL_DestroyTexture(EasyMode);
+
+    SDL_Texture *MediumMode = TextureManager::LoadFontTexture("Medium", 100, "Input/ttf/MTO Astro City.ttf", "yellow");
+    SDL_Rect MediumRect = {250, 325, 300, 125};
+    SDL_RenderCopy(renderer, MediumMode, NULL, &MediumRect);
+    SDL_DestroyTexture(MediumMode);
+
+    SDL_Texture *HardMode = TextureManager::LoadFontTexture("Hard", 100, "Input/ttf/MTO Astro City.ttf", "blue");
+    SDL_Rect HardRect = {275, 450, 250, 100};
+    SDL_RenderCopy(renderer, HardMode, NULL, &HardRect);
+    SDL_DestroyTexture(HardMode);
+
+    SDL_RenderPresent(renderer);
+
     bool quit = false;
     SDL_Event event;
     while (!quit)
@@ -533,11 +546,27 @@ void Game::printGameModeScreen()
                     quit = true;
                     SwitchScreen(1);
                 }
+                else if (x >= 285 && x <= 285 + 225 && y >= 225 && y <= 225 + 100)
+                {
+                    quit = true;
+                    SwitchMode(1);
+                    SwitchScreen(1);
+                }
+                else if (x >= 250 && x <= 250 + 300 && y >= 325 && y <= 325 + 125)
+                {
+                    quit = true;
+                    SwitchMode(2);
+                    SwitchScreen(1);
+                }
+                else if (x >= 275 && x <= 275 + 250 && y >= 450 && y <= 450 + 100)
+                {
+                    quit = true;
+                    SwitchMode(3);
+                    SwitchScreen(1);
+                }
             }
         }
     }
-
-    SDL_RenderPresent(renderer);
 }
 void Game::run()
 {
