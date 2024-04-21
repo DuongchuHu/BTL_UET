@@ -6,3 +6,4 @@ Nhung ban cap nhat cua game duoc cap nhat tai day:
 - Ver 0.2.2: Them vao mot vai chi tiet am thanh cho game sinh dong hon ngay 30/03
 - Ver 0.3.1: Them vao tinh nang so luot choi cung nhu tinh diem moi lan choi ngay 06/04
 - Ver 0.3.2: Them man hinh chinh va man hinh ghi lai diem cao, ngay 09/04
+- Ver 0.4: Them vao nhung che do choi moi
