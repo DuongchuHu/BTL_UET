@@ -19,6 +19,8 @@ SDL_Texture* TextureManager::LoadFontTexture(const char* text, int size, const c
         textColor = {255,255,0};
     } else if (strcmp(color, "black") == 0) {
         textColor = {0,0,0};
+    } else if (strcmp(color, "blue") == 0) {
+        textColor = {0,0,255};
     }
     SDL_Surface* textSurface = TTF_RenderText_Solid(Font, text, textColor);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(Game::renderer, textSurface);
