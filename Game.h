@@ -20,7 +20,7 @@ private:
     bool isPlayScreen = true;
     bool isScoreScreen = true;
     bool isGameModeScreen = true;
-    int FPS = 144;
+    int FPS = 120;
     int number = 5;
 public:
     Game();
@@ -36,6 +36,25 @@ public:
     void printGameModeScreen();
     void pushScore();
     void SwitchScreen(int x);
+    void SwitchMode(int Mode){
+        switch (Mode)
+        {
+        case 1:
+            FPS = 120;
+            number = 5;
+            break;
+        case 2:
+            FPS = 180;
+            number = 7;
+            break;
+        case 3:
+            FPS = 210;
+            number = 9;
+            break;
+        default:
+            break;
+        }
+    }
 
     static TTF_Font* GameOverFont;
     static SDL_Renderer* renderer;
