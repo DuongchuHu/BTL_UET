@@ -23,6 +23,6 @@ SDL_Texture* TextureManager::LoadFontTexture(const char* text, int size, const c
     SDL_Surface* textSurface = TTF_RenderText_Solid(Font, text, textColor);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(Game::renderer, textSurface);
     SDL_FreeSurface(textSurface);
-
+    TTF_CloseFont(Font);
     return textTexture;
 }
