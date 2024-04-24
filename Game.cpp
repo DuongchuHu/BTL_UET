@@ -77,10 +77,9 @@ void Game::printPlayScreen()
 {
     CountTime = SDL_GetTicks() / 10;
 
-    // SDL_Texture* bullet = TextureManager::Loadtexture("Input/img/Bullet.png");
-
+    SDL_Texture *BulletTexture = TextureManager::Loadtexture("Input/img/Bullet.png");
     SDL_Texture *backgroundTexture = TextureManager::Loadtexture("Input/img/BGR.jpg");
-    SDL_Texture *playerTexture = TextureManager::Loadtexture("Input/img/TENLUA.png");
+    SDL_Texture *playerTexture = TextureManager::Loadtexture("Input/img/SuperPacman.png");
     SDL_Texture *ObjTexture = TextureManager::Loadtexture("Input/img/CNV.png");
     SDL_Texture *HeartTexture = TextureManager::Loadtexture("Input/img/3.png");
     SDL_Texture *CoinTexture = TextureManager::Loadtexture("Input/img/coin.png");
@@ -88,7 +87,7 @@ void Game::printPlayScreen()
     {
         isRunning = false;
     }
-    if (!playerTexture || !ObjTexture || !HeartTexture || !CoinTexture)
+    if (!playerTexture || !ObjTexture || !HeartTexture || !CoinTexture || !BulletTexture)
     {
         isRunning = false;
     }
@@ -122,6 +121,7 @@ void Game::printPlayScreen()
     GameObject player = {SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 5, playerTexture};
     vector<GameObject> Obj;
     vector<GameObject> Coin;
+    vector<GameObject> BulletVector;
 
     bool quit = false;
     SDL_Event event;
@@ -129,6 +129,7 @@ void Game::printPlayScreen()
     srand(time(0));
 
     int mang = 3;
+    int ShootTime = 0;
 
     while (!quit)
     {
@@ -144,6 +145,7 @@ void Game::printPlayScreen()
                 quit = true;
             }
         }
+
         const Uint8 *keys = SDL_GetKeyboardState(NULL);
         if (keys[SDL_SCANCODE_LEFT] && player.x > 0)
         {
@@ -161,6 +163,7 @@ void Game::printPlayScreen()
         {
             player.y += 5;
         }
+
         if (rand() % 100 < number)
         {
             GameObject obstacle = {rand() % (SCREEN_WIDTH - 20), 0, 3, ObjTexture};
@@ -201,6 +204,23 @@ void Game::printPlayScreen()
             soundPlaying = false;
         }
 
+        if (SDL_GetTicks() - ShootTime >= 1000)
+        {
+            GameObject bullet = {player.x + 10, player.y, 5, BulletTexture};
+            BulletVector.push_back(bullet);
+            ShootTime = SDL_GetTicks();
+        }
+
+        for (auto it = BulletVector.begin(); it != BulletVector.end(); it++)
+        {
+            it->y -= it->speed;
+            if(it-> y < 0){
+                BulletVector.erase(it);
+                --it;
+                continue;
+            }
+        }
+
         for (auto it = Obj.begin(); it != Obj.end(); ++it)
         {
             it->y += it->speed;
@@ -220,6 +240,7 @@ void Game::printPlayScreen()
             {
                 Obj.clear();
                 Coin.clear();
+                BulletVector.clear();
                 --mang;
                 if (Mix_PlayChannel(1, explosion, 0) == -1)
                 {
@@ -261,15 +282,6 @@ void Game::printPlayScreen()
 
         SDL_Rect playerR = {player.x, player.y, 50, 50};
         SDL_RenderCopy(renderer, player.texture, nullptr, &playerR);
-        // if (keys[SDL_SCANCODE_SPACE])
-        // {
-        //     int time = SDL_GetTicks();
-        //     int x = player.x;
-        //     int y = player.y;
-        //     SDL_Rect BulletRect = {x + 12, y - 50, 25, 50};
-        //     SDL_RenderCopy(Game::renderer, bullet->BulletTexture, NULL, &BulletRect);
-        //     // bullet->update();
-        // }
 
         for (const auto &obstacle : Obj)
         {
@@ -281,7 +293,11 @@ void Game::printPlayScreen()
             SDL_Rect CoinR = {CoinObj.x, CoinObj.y, 35, 35};
             SDL_RenderCopy(renderer, CoinObj.texture, nullptr, &CoinR);
         }
-
+        for (const auto &bullet : BulletVector)
+        {
+            SDL_Rect BulletR = {bullet.x, bullet.y, 35, 35};
+            SDL_RenderCopy(renderer, bullet.texture, nullptr, &BulletR);
+        }
         SDL_Rect HeartR = {0, 0, 150, 50};
         SDL_RenderCopy(renderer, HeartTexture, NULL, &HeartR);
 
@@ -300,13 +316,13 @@ void Game::printPlayScreen()
         NewHighScore = Score;
     }
 
-    SDL_Texture *GameOver = TextureManager::LoadFontTexture("Game Over", 100, "Input/ttf/LIT-Mango.ttf", "white");
-    SDL_Rect GameOverRect = {150, 100, 478, 125};
-    SDL_RenderCopy(renderer, GameOver, nullptr, &GameOverRect);
+    // SDL_Texture *GameOver = TextureManager::LoadFontTexture("Game Over", 100, "Input/ttf/LIT-Mango.ttf", "white");
+    // SDL_Rect GameOverRect = {150, 100, 478, 125};
+    // SDL_RenderCopy(renderer, GameOver, nullptr, &GameOverRect);
 
     SDL_RenderPresent(renderer);
 
-    SDL_Delay(5000);
+    // SDL_Delay(5000);
 
     Mix_FreeChunk(explosion);
     Mix_FreeMusic(backgroundMusic);
@@ -315,19 +331,20 @@ void Game::printPlayScreen()
     SDL_DestroyTexture(backgroundTexture);
     SDL_DestroyTexture(playerTexture);
     SDL_DestroyTexture(ObjTexture);
-    SDL_DestroyTexture(GameOver);
+    // SDL_DestroyTexture(GameOver);
     SDL_DestroyTexture(CoinTexture);
     SDL_DestroyTexture(HeartTexture);
+    SDL_DestroyTexture(BulletTexture);
     pushScore();
 
-    isRunning = false;
+    // isRunning = false;
 }
 void Game::printMainScreen()
 {
     SDL_Texture *MainScreenTexture = TextureManager::Loadtexture("Input/img/MainScreen1.jpg");
     SDL_RenderCopy(renderer, MainScreenTexture, NULL, NULL);
 
-    SDL_Texture *NameGame = TextureManager::LoadFontTexture("SPACESHIP", 100, "Input/ttf/MTO CHANEY.TTF", "white");
+    SDL_Texture *NameGame = TextureManager::LoadFontTexture("SUPERPACMAN", 100, "Input/ttf/MTO CHANEY.TTF", "white");
     SDL_Rect NameGameRect = {150, 100, 478, 125};
     SDL_RenderCopy(renderer, NameGame, NULL, &NameGameRect);
 
@@ -413,7 +430,7 @@ void Game::pushScore()
         isRunning = false;
     }
 
-    int OldHighScore;
+    long long OldHighScore;
     input_file >> OldHighScore;
 
     if (NewHighScore > OldHighScore)
@@ -436,7 +453,7 @@ void Game::printScoreScreen()
     SDL_Texture *ScoreTexture = TextureManager::Loadtexture("Input/img/Score.png");
     SDL_RenderCopy(renderer, ScoreTexture, NULL, NULL);
 
-    SDL_Texture *HighScoreText = TextureManager::LoadFontTexture("High Score:", 100, "Input/ttf/MTO Telephone.ttf", "black");
+    SDL_Texture *HighScoreText = TextureManager::LoadFontTexture("High Score:", 100, "Input/ttf/LIT-Mango.ttf", "black");
     SDL_Rect HighScoreRect = {250, 175, 300, 100};
     SDL_RenderCopy(renderer, HighScoreText, NULL, &HighScoreRect);
 
@@ -453,7 +470,7 @@ void Game::printScoreScreen()
     int ScoreW = 25 * len;
 
     string score = to_string(HighScore);
-    SDL_Texture *ScoreText = TextureManager::LoadFontTexture(score.c_str(), 100, "Input/ttf/MTO Telephone.ttf", "black");
+    SDL_Texture *ScoreText = TextureManager::LoadFontTexture(score.c_str(), 100, "Input/ttf/LIT-Mango.ttf", "black");
     SDL_Rect ScoreRect = {395 - ScoreW / 2, 255, ScoreW, 75};
     SDL_RenderCopy(renderer, ScoreText, NULL, &ScoreRect);
 
@@ -613,5 +630,54 @@ void Game::SwitchScreen(int x)
         break;
     default:
         break;
+    }
+}
+void Game::printGameOverScreen(){
+    SDL_RenderClear(renderer);
+    SDL_Texture* ScreenTexture = TextureManager::Loadtexture("Input/img/GameOverScreen.jpg");
+    SDL_RenderCopy(renderer, ScreenTexture, NULL, NULL);
+    SDL_DestroyTexture(ScreenTexture);
+
+    SDL_Texture* ExitText = TextureManager::LoadFontTexture("EXIT", 50, "Input/ttf/MTO Telephone.ttf", "yellow");
+    SDL_Rect ExitRect = {350, 435, 100, 100};
+    SDL_RenderCopy(renderer, ExitText, NULL, &ExitRect);
+    SDL_DestroyTexture(ExitText);
+
+    SDL_Texture* PlayAgainText = TextureManager::LoadFontTexture("PLAY AGAIN", 50, "Input/ttf/MTO Telephone.ttf", "yellow");
+    SDL_Rect PlayAgainRect = {275, 355, 250, 100};
+    SDL_RenderCopy(renderer, PlayAgainText, NULL, &PlayAgainRect);
+    SDL_DestroyTexture(PlayAgainText);
+
+    SDL_RenderPresent(renderer);
+
+    bool quit = false;
+    SDL_Event event;
+    while (!quit)
+    {
+        while (SDL_PollEvent(&event) != 0)
+        {
+            if (event.type == SDL_QUIT)
+            {
+                quit = true;
+                isRunning = false;
+                break;
+            } else if (event.type == SDL_MOUSEBUTTONDOWN)
+            {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+
+                if (x >= 350 && x <= 350 + 100 && y >= 435 && y <= 435 + 100)
+                {
+                    quit = true;
+                    isRunning = false;
+                }
+                if (x >= 275 && x <= 275 + 250 && y >= 355 && y <= 355 + 100)
+                {
+                    quit = true;
+                    isRunning = true;
+                    printPlayScreen();
+                }
+            }
+        }
     }
 }
