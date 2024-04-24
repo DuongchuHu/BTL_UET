@@ -132,7 +132,7 @@ void Game::printPlayScreen()
     int ShootTime = 0;
 
     while (!quit)
-    {   
+    {
         bool lose = false;
         frameStart = SDL_GetTicks();
         auto Score = SDL_GetTicks() / 10 - CountTime + 100 * TotalCoin;
@@ -191,7 +191,8 @@ void Game::printPlayScreen()
                     it--;
                     continue;
                 }
-                if (player.x < it->x + 25 && player.x + 25 > it->x && player.y < it->y + 25 && player.y + 25 > it->y)
+                if ((player.x < it->x + 35) && (player.x + 50 > it->x) &&
+                    (player.y < it->y + 35) && (player.y + 50 > it->y))
                 {
                     TotalCoin += 1;
                     Coin.erase(it);
@@ -235,6 +236,24 @@ void Game::printPlayScreen()
                     Obj.erase(it);
                     --it;
                     continue;
+                }
+                for (auto it1 = BulletVector.begin(); it1 != BulletVector.end(); it1++)
+                {
+                    int bulletx = it1->x;
+                    int bullety = it1->y;
+                    int objx = it->x;
+                    int objy = it->y;
+                    if ((bulletx + 10 >= objx && bulletx + 10 <= objx + 35) || (objx >= bulletx + 10 && objx <= bulletx + 25))
+                    {
+                        if ((bullety >= objy && bullety <= objy + 35) || (objy >= bullety && objy <= bullety + 35))
+                        {
+                            Obj.erase(it);
+                            --it;
+                            BulletVector.erase(it1);
+                            --it1;
+                            continue;
+                        }
+                    }
                 }
                 if (player.x < it->x + 20 && player.x + 20 > it->x && player.y < it->y + 20 && player.y + 20 > it->y)
                 {
@@ -299,6 +318,7 @@ void Game::printPlayScreen()
                 SDL_Rect BulletR = {bullet.x, bullet.y, 35, 35};
                 SDL_RenderCopy(renderer, bullet.texture, nullptr, &BulletR);
             }
+
             SDL_Rect HeartR = {0, 0, 150, 50};
             SDL_RenderCopy(renderer, HeartTexture, NULL, &HeartR);
 
@@ -315,8 +335,10 @@ void Game::printPlayScreen()
                 SDL_Delay(frameDelay - frameTime);
             }
             NewHighScore = Score;
-            if(lose == true){
-            printGameOverScreen();}
+            if (lose == true)
+            {
+                printGameOverScreen();
+            }
         }
     }
 
