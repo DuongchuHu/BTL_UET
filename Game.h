@@ -34,6 +34,7 @@ public:
     void printPlayScreen();
     void printScoreScreen();
     void printGameModeScreen();
+    void printGameOverScreen();
     void pushScore();
     void SwitchScreen(int x);
     void SwitchMode(int Mode){
