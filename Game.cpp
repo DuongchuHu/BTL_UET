@@ -101,7 +101,9 @@ void Game::printPlayScreen()
 
     Mix_Chunk *explosion = Mix_LoadWAV("Input/mixer/explosion.wav");
     Mix_Chunk *CoinLoud = Mix_LoadWAV("Input/mixer/Coin.mp3");
-    if (explosion == nullptr || CoinLoud == nullptr)
+    Mix_Chunk *Lazer = Mix_LoadWAV("Input/mixer/Lazer.wav");
+    Mix_Chunk *Collide = Mix_LoadWAV("Input/mixer/Collide.wav");
+    if (explosion == nullptr || CoinLoud == nullptr || Lazer == nullptr || Collide == nullptr)
     {
         SDL_Log("Failed to load sound effect! SDL_mixer Error: %s", Mix_GetError());
         isRunning = false;
@@ -145,7 +147,6 @@ void Game::printPlayScreen()
             {
                 quit = true;
                 isPlaying = false;
-                // isRunning = false;
             }
         }
         if (isPlaying == true)
@@ -191,6 +192,7 @@ void Game::printPlayScreen()
                     it--;
                     continue;
                 }
+
                 if ((player.x < it->x + 35) && (player.x + 50 > it->x) &&
                     (player.y < it->y + 35) && (player.y + 50 > it->y))
                 {
@@ -204,6 +206,7 @@ void Game::printPlayScreen()
                     }
                 }
             }
+
             if (soundPlaying && Mix_Playing(1) == 0)
             {
                 soundPlaying = false;
@@ -237,6 +240,7 @@ void Game::printPlayScreen()
                     --it;
                     continue;
                 }
+
                 for (auto it1 = BulletVector.begin(); it1 != BulletVector.end(); it1++)
                 {
                     int bulletx = it1->x;
@@ -251,6 +255,10 @@ void Game::printPlayScreen()
                             --it;
                             BulletVector.erase(it1);
                             --it1;
+                            if (!soundPlaying && Mix_PlayChannel(1, explosion, 0) != -1)
+                            {
+                                soundPlaying = true;
+                            }
                             continue;
                         }
                     }
@@ -261,7 +269,7 @@ void Game::printPlayScreen()
                     Coin.clear();
                     BulletVector.clear();
                     --mang;
-                    if (Mix_PlayChannel(1, explosion, 0) == -1)
+                    if (Mix_PlayChannel(1, Collide, 0) == -1)
                     {
                         SDL_Log("Unable to play sound effect! SDL_mixer Error: %s", Mix_GetError());
                         isRunning = false;
@@ -294,6 +302,10 @@ void Game::printPlayScreen()
                     }
                     break;
                 }
+            }
+            if (soundPlaying && Mix_Playing(1) == 0)
+            {
+                soundPlaying = false;
             }
 
             SDL_RenderClear(renderer);
@@ -343,8 +355,6 @@ void Game::printPlayScreen()
     }
 
     SDL_RenderPresent(renderer);
-
-    SDL_Delay(200);
 
     Mix_FreeChunk(explosion);
     Mix_FreeMusic(backgroundMusic);
