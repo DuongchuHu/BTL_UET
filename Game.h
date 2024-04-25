@@ -16,11 +16,14 @@ private:
     SDL_Window* window;
     bool isRunning = true;
     bool isPlaying = true;
-    Uint32 CountTime = 0;
     bool isMainScreen = true;
     bool isPlayScreen = true;
     bool isScoreScreen = true;
     bool isGameModeScreen = true;
+    bool Pause = false;
+
+    Uint32 CountTime = 0;
+    Uint32 PauseTime = 0;
     int FPS = 120;
     int number = 5;
 public:
@@ -36,6 +39,7 @@ public:
     void printScoreScreen();
     void printGameModeScreen();
     void printGameOverScreen();
+    void printPauseScreen();
     void pushScore();
     void SwitchScreen(int x);
     void SwitchMode(int Mode){
