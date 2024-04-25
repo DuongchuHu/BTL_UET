@@ -137,7 +137,7 @@ void Game::printPlayScreen()
     {
         bool lose = false;
         frameStart = SDL_GetTicks();
-        auto Score = SDL_GetTicks() / 10 - CountTime + 100 * TotalCoin;
+        auto Score = SDL_GetTicks() / 10 - CountTime + 100 * TotalCoin - PauseTime / 10;
         int len = log10(Score + 1) + 1;
         string timestring = "Score: " + to_string(Score);
 
@@ -147,9 +147,18 @@ void Game::printPlayScreen()
             {
                 quit = true;
                 isPlaying = false;
+                Pause = false;
+            }
+            else if (event.type == SDL_KEYDOWN)
+            {
+                if (event.key.keysym.scancode == SDL_SCANCODE_RETURN || event.key.keysym.sym == SDLK_RETURN)
+                {
+                    Pause = true;
+                    isPlaying = false;
+                }
             }
         }
-        if (isPlaying == true)
+        if (isPlaying == true && Pause == false)
         {
             const Uint8 *keys = SDL_GetKeyboardState(NULL);
             if (keys[SDL_SCANCODE_LEFT] && player.x > 0)
@@ -212,11 +221,19 @@ void Game::printPlayScreen()
                 soundPlaying = false;
             }
 
-            if (SDL_GetTicks() - ShootTime >= 1000)
+            if (SDL_GetTicks() - ShootTime >= 1500)
             {
                 GameObject bullet = {player.x + 10, player.y, 5, BulletTexture};
                 BulletVector.push_back(bullet);
                 ShootTime = SDL_GetTicks();
+                if (!soundPlaying && Mix_PlayChannel(1, Lazer, 0) != -1)
+                {
+                    soundPlaying = true;
+                }
+            }
+            if (soundPlaying && Mix_Playing(1) == 0)
+            {
+                soundPlaying = false;
             }
 
             for (auto it = BulletVector.begin(); it != BulletVector.end(); it++)
@@ -352,6 +369,14 @@ void Game::printPlayScreen()
                 printGameOverScreen();
             }
         }
+        else if (Pause == true && isPlaying == false)
+        {
+            printPauseScreen();
+        }
+        else
+        {
+            quit = true;
+        }
     }
 
     SDL_RenderPresent(renderer);
@@ -359,6 +384,8 @@ void Game::printPlayScreen()
     Mix_FreeChunk(explosion);
     Mix_FreeMusic(backgroundMusic);
     Mix_FreeChunk(CoinLoud);
+    Mix_FreeChunk(Collide);
+    Mix_FreeChunk(Lazer);
 
     SDL_DestroyTexture(backgroundTexture);
     SDL_DestroyTexture(playerTexture);
@@ -708,6 +735,55 @@ void Game::printGameOverScreen()
                     quit = true;
                     isRunning = true;
                     printPlayScreen();
+                }
+            }
+        }
+    }
+}
+void Game::printPauseScreen()
+{   
+    Uint32 OldTime = SDL_GetTicks();
+    SDL_Texture *Texture = TextureManager::Loadtexture("Input/img/PauseScreen.jpg");
+    SDL_RenderCopy(renderer, Texture, NULL, NULL);
+    SDL_DestroyTexture(Texture);
+    SDL_RenderPresent(renderer);
+
+    bool quit = false;
+    SDL_Event event;
+    while (!quit)
+    {
+        while (SDL_PollEvent(&event) != 0)
+        {
+            if (event.type == SDL_QUIT)
+            {
+                isRunning = false;
+                quit = true;
+                Pause = false;
+                isPlaying = false;
+                Uint32 ReturnTime = SDL_GetTicks();
+                PauseTime += ReturnTime - OldTime;
+                break;
+            }
+            else if (event.type == SDL_KEYDOWN)
+            {
+                if (event.key.keysym.scancode == SDL_SCANCODE_RETURN || event.key.keysym.sym == SDLK_RETURN)
+                {
+                    quit = true;
+                    Pause = false;
+                    isPlaying = true;
+                    Uint32 ReturnTime = SDL_GetTicks();
+                    PauseTime += ReturnTime - OldTime;
+                    break;
+                }
+                else if (event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    isRunning = false;
+                    quit = true;
+                    Pause = false;
+                    isPlaying = false;
+                    Uint32 ReturnTime = SDL_GetTicks();
+                    PauseTime += ReturnTime - OldTime;
+                    break;
                 }
             }
         }
