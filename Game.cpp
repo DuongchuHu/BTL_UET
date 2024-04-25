@@ -157,6 +157,17 @@ void Game::printPlayScreen()
                     isPlaying = false;
                 }
             }
+            else if (event.type == SDL_MOUSEBUTTONDOWN)
+            {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+
+                if (x >= SCREEN_WIDTH - 45 && x <= SCREEN_WIDTH - 45 + 30 && y >= 15 && y <= 45)
+                {
+                    Pause = true;
+                    isPlaying = false;
+                }
+            }
         }
         if (isPlaying == true && Pause == false)
         {
@@ -352,9 +363,13 @@ void Game::printPlayScreen()
             SDL_RenderCopy(renderer, HeartTexture, NULL, &HeartR);
 
             SDL_Texture *TimeTexture = TextureManager::LoadFontTexture(timestring.c_str(), 50, "Input/ttf/MTO Astro City.ttf", "yellow");
-            SDL_Rect TimeRect = {SCREEN_WIDTH - 100 - 10 * len, 0, 70 + 10 * len, 50};
+            SDL_Rect TimeRect = {SCREEN_WIDTH - 125 - 10 * len, 0, 70 + 10 * len, 50};
             SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
             SDL_DestroyTexture(TimeTexture);
+
+            SDL_Texture* PAUSEBUTTON = TextureManager::Loadtexture("Input/img/pausebutton.png");
+            SDL_Rect PauseRect = {SCREEN_WIDTH - 45, 15, 30, 30};
+            SDL_RenderCopy(renderer, PAUSEBUTTON, NULL, &PauseRect);
 
             SDL_RenderPresent(renderer);
 
