@@ -1,4 +1,4 @@
-![image](https://github.com/DuongchuHu/BTL_UET/assets/161930719/30b39346-59e0-4983-83b2-328c36a1feea)![image](https://github.com/DuongchuHu/BTL_UET/assets/161930719/5f6f9adf-8893-4ce4-8040-ae32e1499ef5)# SuperPacMan - Luong Thanh Vinh Edition
+SuperPacMan - Luong Thanh Vinh Edition
 
 - Thử nghiệm game: [https://youtu.be/]
 
