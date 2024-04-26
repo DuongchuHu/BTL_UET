@@ -304,8 +304,7 @@ void Game::printPlayScreen()
                     }
                     Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 
-                    while (Mix_Playing(-1) != 0)
-                        ;
+                    while (Mix_Playing(-1) != 0);
 
                     switch (mang)
                     {
@@ -366,11 +365,11 @@ void Game::printPlayScreen()
             SDL_Rect TimeRect = {SCREEN_WIDTH - 125 - 10 * len, 0, 70 + 10 * len, 50};
             SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
             SDL_DestroyTexture(TimeTexture);
-            
+
             string NumberCoinText = "Coin: " + to_string(TotalCoin);
             int Numberlen = log10(TotalCoin + 1) + 1;
-            SDL_Texture* NumberCoin = TextureManager::LoadFontTexture(NumberCoinText.c_str(), 50, "Input/ttf/MTO Astro City.ttf", "yellow");
-            SDL_Rect NumberCoinRect = {SCREEN_WIDTH - 100 - 10 * Numberlen, 50, 40 + 10*Numberlen, 50};
+            SDL_Texture *NumberCoin = TextureManager::LoadFontTexture(NumberCoinText.c_str(), 50, "Input/ttf/MTO Astro City.ttf", "yellow");
+            SDL_Rect NumberCoinRect = {SCREEN_WIDTH - 100 - 10 * Numberlen, 50, 40 + 10 * Numberlen, 50};
             SDL_RenderCopy(renderer, NumberCoin, NULL, &NumberCoinRect);
             SDL_DestroyTexture(NumberCoin);
 
@@ -731,7 +730,7 @@ void Game::printGameOverScreen()
 
     string timestring = "Score: " + to_string(Score);
     SDL_Texture *TimeTexture = TextureManager::LoadFontTexture(timestring.c_str(), 50, "Input/ttf/MTO Telephone.ttf", "yellow");
-    SDL_Rect TimeRect = {250,335,315,125};
+    SDL_Rect TimeRect = {250, 335, 315, 125};
     SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
     SDL_DestroyTexture(TimeTexture);
 
