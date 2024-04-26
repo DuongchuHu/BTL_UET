@@ -2,7 +2,6 @@
 #include "TextureManager.hpp"
 
 SDL_Renderer *Game::renderer = nullptr;
-TTF_Font *Game::GameOverFont = nullptr;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -64,7 +63,6 @@ void Game::close()
 {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    TTF_CloseFont(GameOverFont);
 
     IMG_Quit();
     Mix_CloseAudio();
@@ -368,10 +366,18 @@ void Game::printPlayScreen()
             SDL_Rect TimeRect = {SCREEN_WIDTH - 125 - 10 * len, 0, 70 + 10 * len, 50};
             SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
             SDL_DestroyTexture(TimeTexture);
+            
+            string NumberCoinText = "Coin: " + to_string(TotalCoin);
+            int Numberlen = log10(TotalCoin + 1) + 1;
+            SDL_Texture* NumberCoin = TextureManager::LoadFontTexture(NumberCoinText.c_str(), 50, "Input/ttf/MTO Astro City.ttf", "yellow");
+            SDL_Rect NumberCoinRect = {SCREEN_WIDTH - 100 - 10 * Numberlen, 50, 40 + 10*Numberlen, 50};
+            SDL_RenderCopy(renderer, NumberCoin, NULL, &NumberCoinRect);
+            SDL_DestroyTexture(NumberCoin);
 
             SDL_Texture *PAUSEBUTTON = TextureManager::Loadtexture("Input/img/pausebutton.png");
             SDL_Rect PauseRect = {SCREEN_WIDTH - 45, 15, 30, 30};
             SDL_RenderCopy(renderer, PAUSEBUTTON, NULL, &PauseRect);
+            SDL_DestroyTexture(PAUSEBUTTON);
 
             SDL_RenderPresent(renderer);
 
@@ -724,7 +730,6 @@ void Game::printGameOverScreen()
     SDL_DestroyTexture(PlayAgainText);
 
     string timestring = "Score: " + to_string(Score);
-    // int len = log10(Score + 1) + 1;
     SDL_Texture *TimeTexture = TextureManager::LoadFontTexture(timestring.c_str(), 50, "Input/ttf/MTO Telephone.ttf", "yellow");
     SDL_Rect TimeRect = {250,335,315,125};
     SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
