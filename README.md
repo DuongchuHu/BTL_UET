@@ -1,7 +1,7 @@
 SuperPacMan - Luong Thanh Vinh Edition
 
 - Thử nghiệm game: [https://youtu.be/e3rKiabVOWg]
-- Giải thích code: [https://youtu.be/7BuIk_t1gAs]
+- Giải thích code: [https://youtu.be/F8nBMEb60IY]
 - File Drive: [https://drive.google.com/drive/folders/1A9v5YPaVU1GibdyMTMMpRt5IAoV3nWmi?usp=sharing]
 # Giới thiệu game
 
