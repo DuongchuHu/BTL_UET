@@ -137,7 +137,7 @@ void Game::printPlayScreen()
     {
         bool lose = false;
         frameStart = SDL_GetTicks();
-        auto Score = SDL_GetTicks() / 10 - CountTime + 100 * TotalCoin - PauseTime / 10;
+        Score = SDL_GetTicks() / 10 - CountTime + 100 * TotalCoin - PauseTime / 10;
         int len = log10(Score + 1) + 1;
         string timestring = "Score: " + to_string(Score);
 
@@ -297,6 +297,8 @@ void Game::printPlayScreen()
                     Coin.clear();
                     BulletVector.clear();
                     --mang;
+                    player.x = SCREEN_WIDTH / 2;
+                    player.y = SCREEN_HEIGHT - 50;
                     if (Mix_PlayChannel(1, Collide, 0) == -1)
                     {
                         SDL_Log("Unable to play sound effect! SDL_mixer Error: %s", Mix_GetError());
@@ -367,7 +369,7 @@ void Game::printPlayScreen()
             SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
             SDL_DestroyTexture(TimeTexture);
 
-            SDL_Texture* PAUSEBUTTON = TextureManager::Loadtexture("Input/img/pausebutton.png");
+            SDL_Texture *PAUSEBUTTON = TextureManager::Loadtexture("Input/img/pausebutton.png");
             SDL_Rect PauseRect = {SCREEN_WIDTH - 45, 15, 30, 30};
             SDL_RenderCopy(renderer, PAUSEBUTTON, NULL, &PauseRect);
 
@@ -712,14 +714,21 @@ void Game::printGameOverScreen()
     SDL_DestroyTexture(ScreenTexture);
 
     SDL_Texture *ExitText = TextureManager::LoadFontTexture("EXIT", 50, "Input/ttf/MTO Telephone.ttf", "yellow");
-    SDL_Rect ExitRect = {350, 435, 100, 100};
+    SDL_Rect ExitRect = {350, 495, 100, 100};
     SDL_RenderCopy(renderer, ExitText, NULL, &ExitRect);
     SDL_DestroyTexture(ExitText);
 
     SDL_Texture *PlayAgainText = TextureManager::LoadFontTexture("PLAY AGAIN", 50, "Input/ttf/MTO Telephone.ttf", "yellow");
-    SDL_Rect PlayAgainRect = {275, 355, 250, 100};
+    SDL_Rect PlayAgainRect = {275, 425, 250, 100};
     SDL_RenderCopy(renderer, PlayAgainText, NULL, &PlayAgainRect);
     SDL_DestroyTexture(PlayAgainText);
+
+    string timestring = "Score: " + to_string(Score);
+    // int len = log10(Score + 1) + 1;
+    SDL_Texture *TimeTexture = TextureManager::LoadFontTexture(timestring.c_str(), 50, "Input/ttf/MTO Telephone.ttf", "yellow");
+    SDL_Rect TimeRect = {250,335,315,125};
+    SDL_RenderCopy(renderer, TimeTexture, NULL, &TimeRect);
+    SDL_DestroyTexture(TimeTexture);
 
     SDL_RenderPresent(renderer);
 
@@ -740,12 +749,12 @@ void Game::printGameOverScreen()
                 int x, y;
                 SDL_GetMouseState(&x, &y);
 
-                if (x >= 350 && x <= 350 + 100 && y >= 435 && y <= 435 + 100)
+                if (x >= 350 && x <= 350 + 100 && y >= 495 && y <= 495 + 100)
                 {
                     quit = true;
                     isRunning = false;
                 }
-                if (x >= 275 && x <= 275 + 250 && y >= 355 && y <= 355 + 100)
+                if (x >= 275 && x <= 275 + 250 && y >= 425 && y <= 425 + 100)
                 {
                     quit = true;
                     isRunning = true;
@@ -756,7 +765,7 @@ void Game::printGameOverScreen()
     }
 }
 void Game::printPauseScreen()
-{   
+{
     Uint32 OldTime = SDL_GetTicks();
     SDL_Texture *Texture = TextureManager::Loadtexture("Input/img/PauseScreen.jpg");
     SDL_RenderCopy(renderer, Texture, NULL, NULL);
