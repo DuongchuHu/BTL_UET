@@ -90,7 +90,7 @@ Ngoài ra, khi muốn quit khỏi màn hình chọn MODE, ngoài cách chọn ch
 -    Heart (Trái tim/ Số mạng còn lại) ![image](Input/img/3.png)
      : là bảng đếm số mạng chơi mà người chơi đang có. Số trái tim sẽ giảm dần nếu bạn        va chạm với thiên thạch. Hãy cố gắng sống càng lâu càng tốt
 
--    Coin (Đồng xu) ![image](Input/imgcoin.png)
+-    Coin (Đồng xu) ![image](Input/img/coin.png)
      : là xu trong trò chơi. Với mỗi xu ăn được, số điểm của bạn sẽ tăng lên 100 điểm.        Hãy cố gắng sống thật lâu và ăn thật nhiều xu nhất có thể nhé!
 
 -    Bullet (Đạn bắn) ![image](Input/img/Bullet.png): Cứ sau 1.5s, Pacman sẽ tự động bắn ra viên đạn cực mạnh, phá hủy thiên thạch bất kì trên đường đi của nó. Đây là một công cụ cứu mạng tuyệt vời của bạn và Pacman. Hãy căn chỉnh sao cho đạn bắn trúng những viên thiên thạch vì điều đó sẽ khiến đường di chuyển của bạn thông thoáng hơn đấy.
