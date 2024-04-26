@@ -6,7 +6,6 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include "TextureManager.hpp"
-// #include "Bullet.h"
 
 using namespace std;
 
