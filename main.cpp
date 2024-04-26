@@ -11,7 +11,6 @@ int main(int argc, char* argv[]){
     
     while(game->running()){
         game->run();
-        // game->printGameOverScreen();
     }
     game->close();
 
