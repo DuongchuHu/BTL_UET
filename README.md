@@ -13,8 +13,8 @@ tốt
 - [1. Bắt đầu game](#1bắt-đầu-game)
 - [2. Chọn Mode](#2chọn-Mode)
 - [3. Các thành phần trong game:](#3-các-thành-phần-trong-game)
+      * [a. Các vật thể trong game](#a-các-vật-thể-trong-game)
 - [4. Cách chơi](#4-cách-chơi)
-    * [a. Các vật thể trong game](#a-các-vật-thể-trong-game)
 - [5. Game Over](#5-Game-over)
 - [Về đồ họa của game:](#về-đồ-họa-của-game)
 - [Về source code game](#về-source-code-game)
@@ -83,7 +83,7 @@ Kkhi mới bắt đầu, chế độ chơi sẽ mặc định là chế độ EA
 Ngoài ra, khi muốn quit khỏi màn hình chọn MODE, ngoài cách chọn chế độ chơi ra thì bạn có thể bấn dấu X nằm góc trên bên phải màn hình để có thể quay về với màn hình chính
 
 # 3. Các thành phần trong game:
-
+   # a-các-vật-thể-trong-game
 -    CNV (Chướng ngại vật) ![image](Input/img/CNV.png)
      : những cục thiên thạch rơi từ trên cao xuống, nếu bạn điều khiển Pacman và va chạm      với nó thì sẽ bị mất đi một mạng. Nếu số mạng về 0 thì bạn sẽ thua cuộc
 
