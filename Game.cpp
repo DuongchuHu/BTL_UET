@@ -14,6 +14,7 @@ struct GameObject
     int speed;
     SDL_Texture *texture;
 };
+
 Game::Game() {}
 
 Game::~Game() {}
@@ -573,7 +574,7 @@ void Game::printScoreScreen()
                 isRunning = false;
                 break;
             }
-            else if (event.type == SDL_MOUSEBUTTONDOWN && isMainScreen == true)
+            else if (event.type == SDL_MOUSEBUTTONDOWN && isScoreScreen == true)
             {
                 int x, y;
                 SDL_GetMouseState(&x, &y);
@@ -632,7 +633,7 @@ void Game::printGameModeScreen()
                 isRunning = false;
                 break;
             }
-            else if (event.type == SDL_MOUSEBUTTONDOWN && isMainScreen == true)
+            else if (event.type == SDL_MOUSEBUTTONDOWN && isGameModeScreen == true)
             {
                 int x, y;
                 SDL_GetMouseState(&x, &y);
