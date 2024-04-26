@@ -62,7 +62,6 @@ public:
         }
     }
 
-    static TTF_Font* GameOverFont;
     static SDL_Renderer* renderer;
 };
 
