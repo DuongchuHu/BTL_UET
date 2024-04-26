@@ -26,6 +26,7 @@ private:
     Uint32 PauseTime = 0;
     int FPS = 120;
     int number = 5;
+    long long Score;
 public:
     Game();
     ~Game();
