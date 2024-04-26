@@ -1,6 +1,6 @@
 SuperPacMan - Luong Thanh Vinh Edition
 
-- Thử nghiệm game: [https://youtu.be/]
+- Thử nghiệm game: [https://youtu.be/e3rKiabVOWg]
 
 # Giới thiệu game
 
@@ -35,7 +35,7 @@ Hoặc Chọn Code -> Download Zip (Khoảng 90MB)
 GCC-8.1.0 [x86_64-posix-seh](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z/download). Ngoài ra các bạn có thể tìm kiếm và tải các bản mới hơn nếu có.<br/>
 Một số chú ý: <br/>
 
-- Phải xóa ba dll của c++ trong thư mục chứa pvz.exe: `libgcc_s_seh-1.dll`, `libstdc++-6.dll`, `libogg-0.dll`. Ba dll này chỉ dành cho người chơi không cài sẵn c++ trong máy.
+- Phải xóa ba dll của c++ trong thư mục chứa pvz.exe: `libgcc_s_seh-1.dll`, `libstdc++-6.dll`, `libogg-0.dll`.`libwinpthread-1.dll` Bốn dll này chỉ dành cho người chơi không cài sẵn c++ trong máy.
 
 **Bước 3:** Cài GNU make
 
