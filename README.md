@@ -95,7 +95,7 @@ Ngoài ra, khi muốn quit khỏi màn hình chọn MODE, ngoài cách chọn ch
 
 -    Bullet (Đạn bắn) ![image](Input/img/Bullet.png): Cứ sau 1.5s, Pacman sẽ tự động bắn ra viên đạn cực mạnh, phá hủy thiên thạch bất kì trên đường đi của nó. Đây là một công cụ cứu mạng tuyệt vời của bạn và Pacman. Hãy căn chỉnh sao cho đạn bắn trúng những viên thiên thạch vì điều đó sẽ khiến đường di chuyển của bạn thông thoáng hơn đấy.
 
--    SuperPacMan (Siêu Pacman) ![image](Input/img/SuperPacman.png):
+-    SuperPacMan (Siêu Pacman) ![image](Input/img/SuperPacMan.png):
      Là một bản nâng cấp của PacMan, có siêu năng lực bay ra ngoài không gian để trốn tránh những kẻ ác, tuy nhiên lại gặp phải những cơn bão thiên thạch. Là nhân vật mạnh mẽ, có thể bắn Lazer từ mắt, vì vậy hãy đồng hành cùng cậu ấy càng lâu càng tốt nhé.
 
 -    PauseBuuton (Nút Pause game) ![image](Input/img/pausebuttoon.png): Nếu thấy game quá khó khăn hoặc gặp phải việc gấp bất kì, bạn có thể click chuột vào nút pause game để quay về màn hình chờ, ngoài ra bạn có thể bấm phím Enter nếu đang trong tình cảnh rất khó khắn, ngặt nghèo.
