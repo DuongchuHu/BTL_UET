@@ -1,12 +1,12 @@
 SuperPacMan - Luong Thanh Vinh Edition
 
 - Thử nghiệm game: [https://youtu.be/e3rKiabVOWg]
-
+- Giải thích code: [https://youtu.be/ylN9l-ETOG4]
 # Giới thiệu game
 
 SuperPacman là tựa game mà bạn phải tự mình điều khiển Pacman di chuyển trong vũ trụ sao cho
 vừa tránh né những thiên thạch rơi xuống, vừa phải ăn những đồng xu và sinh tồn càng lâu càng
-tốt
+tốt. Game được lập trình trên ngôn ngữ C++ cùng với sự hỗ trợ của thư viện SDL2.0.
 
 - [0. Cách tải game](#0-cách-tải-game)
     * [Bao gồm code và có thể biên dịch.](#a-bao-gồm-code-và-có-thể-biên-dịch)
