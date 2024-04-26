@@ -1,4 +1,4 @@
-# SuperPacMan - Luong Thanh Vinh Edition
+![image](https://github.com/DuongchuHu/BTL_UET/assets/161930719/30b39346-59e0-4983-83b2-328c36a1feea)![image](https://github.com/DuongchuHu/BTL_UET/assets/161930719/5f6f9adf-8893-4ce4-8040-ae32e1499ef5)# SuperPacMan - Luong Thanh Vinh Edition
 
 - Thử nghiệm game: [https://youtu.be/]
 
@@ -45,130 +45,73 @@ Một số chú ý: <br/>
 
 # 1. Bắt đầu game
 
-Chờ một chút rồi click vào nút “CLICK TO START!” để bắt đầu chơi game.
+Chờ một chút rồi click vào nút “PLAY” để bắt đầu chơi game.
 <div style="text-align: center;">
 
-![ezgif com-video-to-gif](resources/preview/loading.gif)
+![image](Input/HuongDan/2.png)
 
 </div>
 
 
-Khi vào game lần đầu, người chơi hãy nhập tên mình để bắt đầu trò chơi. Sau đó click “OK” hoặc nhấn phím Enter để tiếp
-tục.
+Ngoài ra, khi bạn muốn chọn thêm chế độ cho game, hãy bấm và GAME MODE. Trong GAME MODE có 3 chế độ là EASY, MEDIUM và HARD cho bạn lựa chọn.
 
 <div style="text-align: center;">
 
-![image](resources/preview/name.png)
+![image](Input/HuongDan/3.png)
 
 </div>
 
-
-
-Và người chơi sẽ ngay lập tức nhận được 1 cây đầu tiên - Peashooter
-<div style="text-align: center;">
-
-![image](resources/preview/first_plant.png)
-
-</div>
-
-# 2. Chọn level
-
-Có tổng cộng 12 level với mức độ khó dễ khác nhau để bạn chơi. Khi di chuột lên 1 level, level đó sẽ phát sáng. Chỉ cần
-click chuột để chơi level đó.
-<div style="text-align: center;">
-
-![image](resources/preview/choose_level.png)
-</div>
-
-
-Tuy nhiên khi mới bắt đầu, bạn chỉ mở được 1 level. Chiến thắng lần lượt từng level để mở khóa và chơi level tiếp theo:
-<div style="text-align: center;">
-
-![image](resources/preview/choose_level1.png)
-</div>
-
-
-Ngoài ra còn có 3 nút chức năng khác để người chơi đổi tên, đóng game hay thậm chí là reset lại tiến trình của game để
-trải nghiệm game lại từ đầu.
+Nếu như bạn muốn kiểm tra lại số điểm cao nhất mà mình đã đạt được, hãy bấm vào HIGH SCORE
 
 <div style="text-align: center;">
 
-![image](resources/preview/choose_level2.png)
+![image](Input/HuongDan/4.png)
+
 </div>
 
+# 2. Chọn MODE
 
-
-Khi vào game, có 2 loại level mà mọi người sẽ gặp: buổi sáng (bên trái) và buổi tối (bên phải)
+Có tổng cộng 3 level với mức độ khó dễ khác nhau để bạn chơi. Chỉ cần click chuột để chơi MODE đó.
 <div style="text-align: center;">
 
-![image](resources/preview/levels.png)
+![image](Input/HuongDan/3.png)
 </div>
 
-- Buổi sáng thì thi thoảng sẽ có sun (mặt trời) từ trên trời rơi xuống.
-- Còn buổi tối thì không có, vậy nên game sẽ khó hơn một chút.
 
-Trước khi bắt đầu game, bạn sẽ được biết trước có những loại zombie gì sẽ xuất hiện.
-<div style="text-align: center;">
+Kkhi mới bắt đầu, chế độ chơi sẽ mặc định là chế độ EASY. Vì vậy nếu muốn trải nghiệm ngay chế độ khác thì đừng quên đổi chế độ ở màn hình chính nhé.
 
-![image](resources/preview/credit.png)
-</div>
+Ngoài ra, khi muốn quit khỏi màn hình chọn MODE, ngoài cách chọn chế độ chơi ra thì bạn có thể bấn dấu X nằm góc trên bên phải màn hình để có thể quay về với màn hình chính
 
 # 3. Các thành phần trong game:
 
--    Sun (Mặt trời) ![image](resources/preview/sun.png)
-     : là đơn vị để mua plant (cây) trong game. Nhấp vào để thu. Và nên chú ý là nếu một sun tồn tại quá lâu, nó sẽ mờ
-     dần rồi biến mất. Bạn sẽ không thể thu chúng sau khi chúng đã biến mất.
+-    CNV (Chướng ngại vật) ![image](Input/img/CNV.png)
+     : những cục thiên thạch rơi từ trên cao xuống, nếu bạn điều khiển Pacman và va chạm      với nó thì sẽ bị mất đi một mạng. Nếu số mạng về 0 thì bạn sẽ thua cuộc
 
--    Sun bar (Thanh mặt trời) ![image](resources/preview/sun_bar.png)
-     : là bảng đếm số mặt trời mà người chơi đang có
+-    Heart (Trái tim/ Số mạng còn lại) ![image](Input/img/3.png)
+     : là bảng đếm số mạng chơi mà người chơi đang có. Số trái tim sẽ giảm dần nếu bạn        va chạm với thiên thạch. Hãy cố gắng sống càng lâu càng tốt
 
-- Plant seeds: tất cả các giống cây là người chơi đang sở hữu. Để chọn một giống cây mang đi trồng, người chơi phải
-  click vào plant seed hoặc nhấn phím 1, 2, 3, 4, 5 (như trong game đánh dấu) để chọn cây rồi trồng trên sân. Tất nhiên,
-  bạn phải đủ sun để mua cây và plant seed phải có thời gian chờ khác nhau để trồng cây giống đó lần nữa.
+-    Coin (Đồng xu) ![image](Input/imgcoin.png)
+     : là xu trong trò chơi. Với mỗi xu ăn được, số điểm của bạn sẽ tăng lên 100 điểm.        Hãy cố gắng sống thật lâu và ăn thật nhiều xu nhất có thể nhé!
 
-<div style="text-align: center;">
+-    Bullet (Đạn bắn) ![image](Input/img/Bullet.png): Cứ sau 1.5s, Pacman sẽ tự động bắn ra viên đạn cực mạnh, phá hủy thiên thạch bất kì trên đường đi của nó. Đây là một công cụ cứu mạng tuyệt vời của bạn và Pacman. Hãy căn chỉnh sao cho đạn bắn trúng những viên thiên thạch vì điều đó sẽ khiến đường di chuyển của bạn thông thoáng hơn đấy.
 
-![image](resources/preview/plant_seed.png)
-</div>
+-    SuperPacMan (Siêu Pacman) ![image](Input/img/SuperPacman.png):
+     Là một bản nâng cấp của PacMan, có siêu năng lực bay ra ngoài không gian để trốn tránh những kẻ ác, tuy nhiên lại gặp phải những cơn bão thiên thạch. Là nhân vật mạnh mẽ, có thể bắn Lazer từ mắt, vì vậy hãy đồng hành cùng cậu ấy càng lâu càng tốt nhé.
 
-- Shovel (Xẻng): Là vật dụng vô cùng hữu hiệu để bạn có thể đào đi những cây không cần thiết và thay vào đó cây mới.
+-    PauseBuuton (Nút Pause game) ![image](Input/img/pausebuttoon.png): Nếu thấy game quá khó khăn hoặc gặp phải việc gấp bất kì, bạn có thể click chuột vào nút pause game để quay về màn hình chờ, ngoài ra bạn có thể bấm phím Enter nếu đang trong tình cảnh rất khó khắn, ngặt nghèo.
 
-<div style="text-align: center;">
-
-![image](resources/preview/shovel.png)
-</div>
-
-- Thanh tiến trình game (progress bar): Là thanh bạn có thể theo dõi để xem còn bao nhiêu zombie tiếp theo sẽ ra hay bạn
-  đã chơi được bao nhiêu phần của level. Bên trái sẽ là level hiện tại bạn đang chơi.
+-   PauseScreen (Màn hình chờ): Là màn hình để bạn có thể dành thời gian cho những việc gấp hơn hay đơn giản chỉ là dành chút thời gian thư giãn khi đang chơi chế độ HARD của chúng tôi. Bạn có thể bấm lại nút Enter để có thể chơi tiếp ở nơi game dừng lại, hoặc có thể bấm ESC để thoát game.
 
 <div style="text-align: center;">
 
-![image](resources/preview/progress_bar.png)
-</div>
-
-- Nút tua nhanh game (Turbo button): Nếu thấy game quá chậm hay quá dễ mà bạn cần tiết kiệm thời gian, hãy nhấn nút để
-  trải nghiệm game với tốc độ x2 tốc độ gốc.
-- Và nếu thấy game quá đáng sợ ở tốc độ này, hãy nhấn lại để game trở về tốc độ bình thường.
-  ● Game ở tốc độ ban đầu:  ![image](resources/preview/faster.png)
-
-● Game đang ở tốc độ nhanh gấp 2 ban đầu:  ![image](resources/preview/faster_triggered.png)
-
-- Nút dừng game (Pause Button): Bạn có việc cần dừng game để lúc sau chơi tiếp ư? Hay bạn muốn điều chỉnh âm lượng của
-  nhạc nền và hiệu ứng âm thanh? Quá đơn giản, game có thể dừng lại bằng cách click ![image](resources/preview/pause.png)  hoặc
-  click đâu đó bên ngoài game.
-- Máy cắt cỏ (Mower): Nếu bạn để zombie lại quá gần nhà, máy cắt cỏ sẽ tự động kích hoạt và tiêu diệt tất cả zombie hiện
-  tại đang ở hàng đó. Chú ý là mỗi hàng chỉ có một máy cắt cỏ thôi.
-
-<div style="text-align: center;">
-
-![image](resources/preview/mower.png)
+![image](Input/img/6.png)
 </div>
 
 - Bố cục game cơ bản:
 
 <div style="text-align: center;">
 
-![image](resources/preview/game.png)
+![image](Input/img/5.png)
 </div>
 
  
