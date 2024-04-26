@@ -10,10 +10,10 @@ tốt
 
 - [0. Cách tải game](#0-cách-tải-game)
     * [Bao gồm code và có thể biên dịch.](#a-bao-gồm-code-và-có-thể-biên-dịch)
-- [1. Bắt đầu game](#1bắt-đầu-game)
-- [2. Chọn Mode](#2chọn-Mode)
+- [1. Bắt đầu game](#1-bắt-đầu-game)
+- [2. Chọn Mode](#2-chọn-Mode)
 - [3. Các thành phần trong game:](#3-các-thành-phần-trong-game)
-      * [a. Các vật thể trong game](#a-các-vật-thể-trong-game)
+   * [a. Các vật thể trong game](#a-các-vật-thể-trong-game)
 - [4. Cách chơi](#4-cách-chơi)
 - [5. Game Over](#5-Game-over)
 - [Về đồ họa của game:](#về-đồ-họa-của-game)
