@@ -22,7 +22,7 @@ tốt
 # 0. Cách tải game
 
 
-## Bao gồm code và có thể biên dịch.
+## a. Bao gồm code và có thể biên dịch.
 
 **Bước 1:** Clone repo này về. <br/>
 Hoặc Chọn Code -> Download Zip (Khoảng 90MB)
