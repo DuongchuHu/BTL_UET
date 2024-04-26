@@ -90,74 +90,40 @@ Ngoài ra, khi muốn quit khỏi màn hình chọn MODE, ngoài cách chọn ch
 -    Heart (Trái tim/ Số mạng còn lại) ![image](Input/img/3.png)
      : là bảng đếm số mạng chơi mà người chơi đang có. Số trái tim sẽ giảm dần nếu bạn        va chạm với thiên thạch. Hãy cố gắng sống càng lâu càng tốt
 
--    Coin (Đồng xu) ![image](Input/imgcoin.png)
+-    Coin (Đồng xu) ![image](Input/img/coin.png)
      : là xu trong trò chơi. Với mỗi xu ăn được, số điểm của bạn sẽ tăng lên 100 điểm.        Hãy cố gắng sống thật lâu và ăn thật nhiều xu nhất có thể nhé!
 
 -    Bullet (Đạn bắn) ![image](Input/img/Bullet.png): Cứ sau 1.5s, Pacman sẽ tự động bắn ra viên đạn cực mạnh, phá hủy thiên thạch bất kì trên đường đi của nó. Đây là một công cụ cứu mạng tuyệt vời của bạn và Pacman. Hãy căn chỉnh sao cho đạn bắn trúng những viên thiên thạch vì điều đó sẽ khiến đường di chuyển của bạn thông thoáng hơn đấy.
 
--    SuperPacMan (Siêu Pacman) ![image](Input/img/SuperPacman.png):
+-    SuperPacMan (Siêu Pacman) ![image](Input/img/SuperPacMan.png):
      Là một bản nâng cấp của PacMan, có siêu năng lực bay ra ngoài không gian để trốn tránh những kẻ ác, tuy nhiên lại gặp phải những cơn bão thiên thạch. Là nhân vật mạnh mẽ, có thể bắn Lazer từ mắt, vì vậy hãy đồng hành cùng cậu ấy càng lâu càng tốt nhé.
 
--    PauseBuuton (Nút Pause game) ![image](Input/img/pausebuttoon.png): Nếu thấy game quá khó khăn hoặc gặp phải việc gấp bất kì, bạn có thể click chuột vào nút pause game để quay về màn hình chờ, ngoài ra bạn có thể bấm phím Enter nếu đang trong tình cảnh rất khó khắn, ngặt nghèo.
+-    PauseBuuton (Nút Pause game) ![image](Input/img/pausebutton.png): Nếu thấy game quá khó khăn hoặc gặp phải việc gấp bất kì, bạn có thể click chuột vào nút pause game để quay về màn hình chờ, ngoài ra bạn có thể bấm phím Enter nếu đang trong tình cảnh rất khó khắn, ngặt nghèo.
 
 -   PauseScreen (Màn hình chờ): Là màn hình để bạn có thể dành thời gian cho những việc gấp hơn hay đơn giản chỉ là dành chút thời gian thư giãn khi đang chơi chế độ HARD của chúng tôi. Bạn có thể bấm lại nút Enter để có thể chơi tiếp ở nơi game dừng lại, hoặc có thể bấm ESC để thoát game.
 
 <div style="text-align: center;">
 
-![image](Input/img/6.png)
+![image](Input/HuongDan/6.png)
 </div>
 
 - Bố cục game cơ bản:
 
 <div style="text-align: center;">
 
-![image](Input/img/5.png)
+![image](Input/HuongDan/5.png)
 </div>
 
  
 
 # 4. Cách chơi
 
-Trồng cây để tấn công và phòng thủ, không cho zombie bước vào nhà bạn.<br/>
-Để trồng cây, Chọn hạt giống của cây đó (bàn phím hoặc click chuột) rồi đặt vào ô muốn trồng. <br/>
-Có thể đào những cây đang sử dụng bằng xẻng.<br/>
-Cây sẽ bị zombie ăn mất.
+Dùng 4 phím di chuyển LÊN, XUỐNG, TRÁI, PHẢI để điều khiển PacMan sao cho PacMan vừa tránh né những thiên thạch đang lao xuống cũng như là ăn được càng nhiều đồng xu càng tốt. Hãy sống sót thật lâu, lâu nhất có thể bởi vì bạn sống càng lâu, điểm càng cao. Khuyến khích nên trải nghiệm chế độ HARD đầu tiên.
 
-## a. Các loại cây
 
-Có 6 loại cây, lần lượt theo thứ tự có thể nhận được trong game là:
+# 5. Game Over
 
-|                                                                             | Tên cây	     | Chức năng                                                                                                                    |
-|-----------------------------------------------------------------------------|--------------|------------------------------------------------------------------------------------------------------------------------------|
-| <img src="resources/images/Plant_sheet/peashooter/Peashooter.png" width=50>  | Peashooter	  | Mỗi lần bắn một đậu vào zombie.                                                                                              |
-| <img src="resources/images/Plant_sheet/sunflower/Sunflower.png" width=44>    | Sunflower	   | Tạo thêm mặt trời để trồng cây                                                                                               |
-| <img src="resources/images/Plant_sheet/walnut/Walnut.png" width=42>          | Wall-nut	    | Chịu được nhiều phát ăn của zombie để bảo vệ các cây khác.                                                                   |
-| <img src="resources/images/Plant_sheet/snowpea/SnowPea.png" width=52>        | Snow Pea	    | Mỗi lần bắn một đậu băng vào zombie. Đậu băng không tăng sát thương nhưng làm chậm tốc độ di chuyển và tốc độ ăn của zombie. |
-| <img src="resources/images/Plant_sheet/potatomine/Potato_Mine.png" width=56> | Potato Mine  | Tiêu diệt zombie khi chạm nó nhưng cần thời gian để kích hoạt.                                                               |
-| <img src="resources/images/Plant_sheet/cherrybomb/Cherrybomb.png" width=48>  | Cherry Bomb	 | Ngay lập tức tiêu diệt tất cả zombie trong khu vực 3x3.                                                                      |
-
-## b. Các loại zombie
-
-- Có 5 loại zombie:
-
-|                                         | Tên zombie 	       | Chức năng                                                                                        |
-|-----------------------------------------|--------------------|--------------------------------------------------------------------------------------------------|
-| ![image](resources/images/Choose_level/normal.png) | Browncoat Zombie	  | Ăn cây và não của bạn.                                                                           |
-| ![image](resources/images/Choose_level/flag.png)   | Flag Zombie	       | Báo hiệu một lượng lớn zombie đang chuẩn bị ra.                                                  |
-| ![image](resources/images/Choose_level/cone.png)   | Conehead Zombie	   | Trâu gấp 3 lần zombie thường                                                                     |
-| ![image](resources/images/Choose_level/bucket.png) | Buckethead Zombie	 | Trâu gấp 6.5 lần zombie thường                                                                   |
-| ![image](resources/images/Choose_level/door.png)   | Door Zombie	       | Trâu gấp 6.5 lần zombie thường. Không bị ảnh hưởng bởi sự làm chậm của đạn băng nếu vẫn còn cửa. |
-
-# 5. Chiến thắng và thất bại
-
-- Bạn sẽ chiến thắng nếu tiêu diệt hết tất cả zombie trong ván đó.
-
-<div style="text-align: center;">
-
-![image](resources/preview/win.png)
-</div>
-
-- Bạn sẽ thất bại nếu có một zombie nào đó đi hết sân để vào nhà bạn.
+- Bạn sẽ thất bại nếu như số mạng của bạn đã hết. Nếu như muốn thử lại, bạn có thể click chuột vào PLAY AGAIN, còn nếu không hãy bấm EXIT để thoát khỏi game.
 
 <div style="text-align: center;">
 
