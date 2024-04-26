@@ -16,7 +16,7 @@ tốt
    * [a. Các vật thể trong game](#a-các-vật-thể-trong-game)
 - [4. Cách chơi](#4-cách-chơi)
 - [5. Game Over](#5-Game-over)
-- [Về đồ họa của game:](#về-đồ-họa-của-game)
+- [Về đồ họa và âm thanh của game:](#về-đồ-họa-và-âm-thanh-của-game)
 - [Về source code game](#về-source-code-game)
 
 # 0. Cách tải game
@@ -127,53 +127,28 @@ Dùng 4 phím di chuyển LÊN, XUỐNG, TRÁI, PHẢI để điều khiển Pac
 
 <div style="text-align: center;">
 
-![image](resources/preview/lose.png)
+![image](Input/HuongDan/7.png)
 </div>
 
 ---
 
-### Về đồ họa của game:
+### Về đồ họa và âm thanh của game:
 
-[[Cách làm hiệu ứng từng cây, zombie trong game]](about_graphics.md)
+[[Cách thực hiện đồ họa và âm thanh của game]](Input/src/DoHoaGame.txt)
 
 ### Về source code game:
-
-- Folder draw:
-    * khởi tạo window và renderer
-    * chứa tất cả các ảnh trong game (được đánh số)
-    * chứa hầu hết các câu lệnh của SDL2, SDL2_image, SDL2_ttf, sử dụng để vẽ load ảnh, chữ và vẽ lên renderer, window.
-- Folder elements: Chứa tất cả các thành phần của game:
-    * bullets: các loại đạn
-    * button: các loại nút trong game (có thể nhấn được hoặc không)
-    * Map: chứa hàm random và khởi tạo bảng 5 x 9 cho màn chơi.
-    * mower: máy cắt cỏ (Cán zombie)
-    * plants: chứa tất cả các loại plant (được kế thừa từ class Plants)
-    * zombies: chứa tất cả các loại zombies (được kế thừa từ class Zombie)
-    * elements: gom lại các loại plants và zombies.
-    * elements_actions:
-        + chứa hầu hết các tương tác giữa các thành phần game với nhau, và với màn chơi.
-        + tạo ngẫu nhiên zombie
-        + cập nhật tất cả các thay đổi của game theo từng khung hình
-- Folder events: Xử lý các sự kiện trong game (sự kiện chuột, bàn phím)
-    * in_game: xử lý các sự kiện khi đang trong một màn chơi
-        + credit: phần giới thiệu các loại zombie & ready-set-plant
-        + game: tất cả các sự kiện trong một màn chơi
-        + lose: xử lý khi thua
-        + main_menu: xử lý khi người chơi muốn trở lại phần chọn màn chơi
-        + pause_menu: xử lý khi người chơi dừng game (nút dừng hoặc click ra ngoài game)
-        + restart_menu: xử lý khi người chơi muốn chơi lại màn chơi
-        + turbo: xử lý nút tăng tốc game
-        + volume: xử lý nút điều chỉnh âm lượng nhạc nền và hiệu ứng.
-        + win: xử lý khi chiến thắng trò chơi.
-    * mouse_cursor: xử lý con trỏ chuột
-    * out_game: xử lý các sự kiện ngoài màn chơi
-        + choose_level: xử lý chọn màn chơi
-        + quit_menu: xử lý nút quit game: tắt game
-        + reset_level: xử lý nút reset level: xóa tiến trình chơi
-        + start_game: xử lý nút "Click to start" để bắt đầu vào game.
-        + unlock_plant: xử lý mở khóa plant mới.
-- Folder level: xử lý phần lấy dữ liệu ván chơi.
-- Folder music: xử lý phần âm thanh của game - SDL2_mixer
-- Folder player: xử lý phần dữ liệu người chơi. Bao gồm việc lấy và thay đổi tên, tiến trình.
-- game_stats.hpp: chứa tất cả thông số game
-- game.hpp và game.cpp: hàm main() của trò chơi.
+- Chia làm 3 phần main.cpp, Game.cpp và TextureManager.cpp
+- Main.cpp là chương trình chạy chính của game, bao gồm 2 file Game.cpp và TextureManager.cpp, việc thực hiện chạy chương trình được thực hiện tại main.cpp
+- TextureManager.cpp là chương trình dùng để load các SDL_Texture trong chương trình, sử dụng thư viện SDL2.0
+- Game.cpp là chương trình bao gồm các hàm chính của main, được thêm vào main để xử lí các hành động của bạn đối với game:
+  * Hàm init dùng để khai báo và khởi tạo những giá trị ban đầu cho game.
+  * Hàm close là hàm kết thúc chương trình, khi chương trình kết thúc sẽ giải phóng bộ nhớ và những biến được lưu trong chương trình.
+  * Hàm orintPlayScreen có công việc chính là in ra màn hình chơi cũng như là nơi tiếp nhận và xử lí những sự kiện chuột và bàn phím. Bạn sẽ được chơi game tại màn hình này.
+  * Hàm printMainScreen có công việc chính là in ra màn hình chính với những chức năng nhất định, xử lí sự kiện chuột để chuyển qua các màn hình tiếp theo.
+  * Hàm printScoreScreen là hàm in ra màn hình ghi điểm cao nhất của người chơi.
+  * Hàm printGameModeScreen là hàm in ra màn hình chuyển chế độ game, xử lí sự kiện chuột để chuyển đổi chế độ game theo như ý muốn của người chơi
+  * Hàm printGameOverScreen in ra màn hình thua Game over, cho phép người chơi xem lại điểm đã chơi cũng như cho phéo người chơi chơi lại hoặc thoát khỏi game nếu muốn.
+  * Hàm printPauseScreen in ra màn hình chờ, nhận sự kiện bàn phím, khi bấm Enter sẽ quay lại màn hình chơi game, còn ESC sẽ thoát khỏi game nếu muốn.
+  * Hàm pushScore là hàm đẩy điểm của người chơi vào trong file HighScore nếu như điểm người chơi cao hơn điểm cao nhất hiện tại.
+  * Hàm SwitchScreen là hàm đảm nhận vai trò chuyển đổi qua lại giữa các màn hình trong game
+  * Hàm run là hàm kiểm tra nếu như chương trình không còn lỗi gì thì sẽ bắt đầu chạy bằng cách in ra màn hình chính
