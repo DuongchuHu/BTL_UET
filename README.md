@@ -134,7 +134,7 @@ Dùng 4 phím di chuyển LÊN, XUỐNG, TRÁI, PHẢI để điều khiển Pac
 
 ### Về đồ họa và âm thanh của game:
 
-[[Cách thực hiện đồ họa và âm thanh của game]](Input/src/DoHoaGame.txt)
+[[Cách thực hiện đồ họa và âm thanh của game]](src/DoHoaGame.txt)
 
 ### Về source code game:
 - Chia làm 3 phần main.cpp, Game.cpp và TextureManager.cpp
