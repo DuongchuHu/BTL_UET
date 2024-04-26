@@ -22,30 +22,26 @@ tốt
 # 0. Cách tải game
 
 
-## a Bao gồm code và có thể biên dịch.
+## Bao gồm code và có thể biên dịch.
 
-**Bước 1:** Clone repo này về (Khoảng 800 MB - do có cả lịch sử các phiên bản). <br/>
+**Bước 1:** Clone repo này về. <br/>
 Hoặc Chọn Code -> Download Zip (Khoảng 90MB)
 
 ![image](Input/HuongDan/1.png)
 
-- Tất cả code đều nằm trong thư mục src.<br/>
 - Có thể nhảy đến bước 5 để chơi luôn.
 
 **Bước 2:** Cài mingw. Ở đây tôi cài đặt phiên bản MinGW-W64
-GCC-8.1.0 [x86_64-posix-seh](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z/download).<br/>
+GCC-8.1.0 [x86_64-posix-seh](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z/download). Ngoài ra các bạn có thể tìm kiếm và tải các bản mới hơn nếu có.<br/>
 Một số chú ý: <br/>
 
-- Nếu sử dụng trình biên dịch khác thì phải dịch lại icon: vào thư mục icon rồi dùng
-  lệnh `windres main.rc -O coff main.res` trong cmd.<br/>
-- Phải xóa ba dll của c++ trong thư mục chứa pvz.exe: `libgcc_s_seh-1.dll`, `libstdc++-6.dll`, `libwinpthread-1.dll`. Ba
-  dll này chỉ dành cho người chơi không cài sẵn c++ trong máy.
+- Phải xóa ba dll của c++ trong thư mục chứa pvz.exe: `libgcc_s_seh-1.dll`, `libstdc++-6.dll`, `libogg-0.dll`. Ba dll này chỉ dành cho người chơi không cài sẵn c++ trong máy.
 
 **Bước 3:** Cài GNU make
 
-**Bước 4:** Mở cmd trong thư mục chứa Makefile và gõ lệnh make.
+**Bước 4:** Mở cmd trong thư mục chứa Makefile và gõ lệnh make hoặc mingw32-make.
 
-**Bước 5:** Bật pvz.exe và chơi
+**Bước 5:** Bật main.exe và chơi
 
 # 1. Bắt đầu game
 
