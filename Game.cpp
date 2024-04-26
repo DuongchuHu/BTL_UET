@@ -420,7 +420,7 @@ void Game::printPlayScreen()
 }
 void Game::printMainScreen()
 {
-    SDL_Texture *MainScreenTexture = TextureManager::Loadtexture("Input/img/MainScreen1.jpg");
+    SDL_Texture *MainScreenTexture = TextureManager::Loadtexture("Input/img/MainScreen.jpg");
     SDL_RenderCopy(renderer, MainScreenTexture, NULL, NULL);
 
     SDL_Texture *NameGame = TextureManager::LoadFontTexture("SUPERPACMAN", 100, "Input/ttf/MTO CHANEY.TTF", "white");
